@@ -6,11 +6,14 @@ Usage:
     python ask_book.py load path/to/book.pdf    # Load a PDF into the database
     python ask_book.py ask "Your question here" # Ask a question about the book
 
-Requires ANTHROPIC_API_KEY environment variable to be set.
+Requires ANTHROPIC_API_KEY to be set (via .env file or environment variable).
 """
 
 import sys
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 import chromadb
 import chromadb.errors
 import fitz  # pymupdf
@@ -33,7 +36,9 @@ def extract_text_from_pdf(pdf_path: str) -> str:
     return text
 
 
-def chunk_text(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> list[str]:
+def chunk_text(
+    text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP
+) -> list[str]:
     """Split text into overlapping chunks."""
     chunks = []
     start = 0
@@ -74,12 +79,14 @@ def load_pdf(pdf_path: str):
     # Add chunks in batches
     batch_size = 100
     for i in range(0, len(chunks), batch_size):
-        batch = chunks[i:i + batch_size]
+        batch = chunks[i : i + batch_size]
         ids = [f"chunk_{i + j}" for j in range(len(batch))]
         collection.add(documents=batch, ids=ids)
         print(f"  Added {min(i + batch_size, len(chunks))}/{len(chunks)} chunks")
 
-    print("Done! You can now ask questions with: python ask_book.py ask \"your question\"")
+    print(
+        'Done! You can now ask questions with: python ask_book.py ask "your question"'
+    )
 
 
 def ask_question(question: str):
@@ -95,7 +102,9 @@ def ask_question(question: str):
     try:
         collection = client.get_collection(COLLECTION_NAME)
     except chromadb.errors.NotFoundError:
-        print("Error: No book loaded. First run: python ask_book.py load path/to/book.pdf")
+        print(
+            "Error: No book loaded. First run: python ask_book.py load path/to/book.pdf"
+        )
         sys.exit(1)
 
     results = collection.query(query_texts=[question], n_results=5)
@@ -116,9 +125,9 @@ If the answer isn't in the excerpts, say so.
 EXCERPTS:
 {context}
 
-QUESTION: {question}"""
+QUESTION: {question}""",
             }
-        ]
+        ],
     )
 
     print(message.content[0].text)
@@ -139,7 +148,7 @@ def main():
 
     elif command == "ask":
         if len(sys.argv) < 3:
-            print("Usage: python ask_book.py ask \"Your question here\"")
+            print('Usage: python ask_book.py ask "Your question here"')
             sys.exit(1)
         ask_question(" ".join(sys.argv[2:]))
 
