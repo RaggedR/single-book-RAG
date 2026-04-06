@@ -1,0 +1,2367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calma AI — Phoneme Curriculum</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --primary: #4a7c6f;
+    --primary-light: #e8f0ed;
+    --accent: #d4956a;
+    --accent-light: #faf0e8;
+    --text: #2c2c2c;
+    --text-muted: #6b6b6b;
+    --border: #e2ddd5;
+    --stage1: #4a7c6f;
+    --stage2: #5b7fa6;
+    --stage3: #8b6aab;
+    --stage4: #c47a5a;
+    --stage5: #b5894e;
+    --stage6: #5a9a7a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- Header --- */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, #3a6459 100%);
+    color: white;
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+  .hero .subtitle {
+    font-size: 1rem;
+    opacity: 0.85;
+    font-weight: 400;
+  }
+
+  /* --- Principles --- */
+  .principles {
+    padding: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .principles h2 {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  .principle-list {
+    list-style: none;
+  }
+  .principle-list li {
+    padding: 0.6rem 0 0.6rem 1.5rem;
+    position: relative;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  .principle-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* --- Teaching Cycle --- */
+  .cycle {
+    padding: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .cycle h2 {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  .cycle-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .cycle-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    position: relative;
+  }
+  .cycle-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 2.75rem;
+    bottom: -0.25rem;
+    width: 2px;
+    background: var(--border);
+  }
+  .step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .step-text {
+    padding-top: 0.35rem;
+    font-size: 0.95rem;
+  }
+  .step-text strong { color: var(--text); }
+
+  /* --- Stage Pages --- */
+  .stage-page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 1.5rem 2rem;
+  }
+
+  .stage-header {
+    padding: 2rem 1.5rem 1.25rem;
+    text-align: center;
+    border-bottom: 3px solid var(--border);
+    margin-bottom: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .stage-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .stage-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.35rem;
+  }
+  .stage-header .sessions {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* --- Sound Table --- */
+  .sound-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    font-size: 0.9rem;
+  }
+  .sound-table th {
+    text-align: left;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+  }
+  .sound-table td {
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .sound-table .phoneme {
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-family: 'Courier New', monospace;
+  }
+  .sound-table .example {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  .sound-table .notes {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  /* --- Exercise Cards --- */
+  .exercise {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin: 1rem 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+  }
+  .exercise-id {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  .exercise-type {
+    font-size: 0.75rem;
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .type-listen { background: #e3f0ff; color: #2b6cb0; }
+  .type-watch { background: #fef3e2; color: #b7791f; }
+  .type-repeat { background: #e8f8e8; color: #2f855a; }
+  .type-label { background: #f0e4f7; color: #744ba0; }
+  .type-letter { background: #fde8e8; color: #c53030; }
+  .type-review { background: #e8ecf0; color: #4a5568; }
+  .type-sort { background: #fff3e0; color: #c05621; }
+  .type-blend { background: #e0f7f4; color: #276749; }
+
+  .exercise h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+  .exercise .prompt {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    background: var(--bg);
+    border-radius: 8px;
+    line-height: 1.5;
+  }
+  .exercise .prompt em {
+    color: var(--primary);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* --- Choice Lists --- */
+  .choices {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+  }
+  .choices li {
+    padding: 0.65rem 0.85rem;
+    background: var(--bg);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    border: 2px solid transparent;
+  }
+  .choices li.correct {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    font-weight: 600;
+  }
+  .choices li .check {
+    color: var(--primary);
+    font-weight: 700;
+    margin-left: 0.25rem;
+  }
+
+  /* --- Trial Tables --- */
+  .trials {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0;
+    font-size: 0.9rem;
+  }
+  .trials th {
+    text-align: left;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border);
+  }
+  .trials td {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .trials .answer { font-weight: 600; color: var(--primary); }
+
+  /* --- Teaching Moments --- */
+  .teaching-moment {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .tm-correct {
+    background: var(--primary-light);
+    color: #2d5a4e;
+  }
+  .tm-incorrect {
+    background: var(--accent-light);
+    color: #8a5a38;
+  }
+  .tm-info {
+    background: #eef2f7;
+    color: #3a4a5c;
+  }
+  .teaching-moment strong {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.2rem;
+  }
+
+  /* --- Pass Criteria --- */
+  .pass-criteria {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    background: var(--primary-light);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 600;
+    margin-top: 0.75rem;
+  }
+  .pass-criteria::before {
+    content: '\2714';
+  }
+
+  /* --- Notes --- */
+  .app-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 0.5rem;
+    padding-left: 0.75rem;
+    border-left: 2px solid var(--border);
+  }
+
+  /* --- Sort Buckets --- */
+  .sort-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+  }
+  .sort-bucket {
+    padding: 0.6rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+  .bucket-continuous { background: #e3f0ff; color: #2b6cb0; }
+  .bucket-stop { background: #fef3e2; color: #b7791f; }
+
+  /* --- Bingo Grid --- */
+  .bingo-grid {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0.75rem 0;
+  }
+  .bingo-5 { grid-template-columns: repeat(5, 1fr); }
+  .bingo-6 { grid-template-columns: repeat(4, 1fr); }
+  .bingo-11 { grid-template-columns: repeat(4, 1fr); }
+  .bingo-cell {
+    padding: 0.6rem 0.3rem;
+    background: var(--bg);
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+  }
+
+  /* --- Section Dividers --- */
+  .section-divider {
+    height: 8px;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 1.5rem 0 0;
+  }
+
+  /* --- Assessment Table --- */
+  .assess-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    margin: 1rem 0;
+  }
+  .assess-table th {
+    text-align: left;
+    padding: 0.5rem;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .assess-table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .assess-table .threshold { font-weight: 600; color: var(--primary); }
+
+  /* --- Vowel Word Examples --- */
+  .word-example {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--bg);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin: 0.2rem;
+  }
+  .word-example .arrow { color: var(--accent); font-weight: 700; }
+  .word-example .word { font-weight: 700; }
+  .word-example .phon { font-family: 'Courier New', monospace; color: var(--text-muted); }
+
+  /* --- Footer --- */
+  .footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* --- Blending Phoneme Display --- */
+  .blend-word {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.6rem;
+    margin: 0.3rem 0;
+    background: var(--bg);
+    border-radius: 8px;
+    flex-wrap: wrap;
+  }
+  .blend-phoneme {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.3rem 0.5rem;
+    background: var(--surface);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .blend-arrow { color: var(--accent); font-weight: 700; }
+  .blend-result { font-weight: 700; font-size: 1.1rem; color: var(--primary); }
+
+  /* --- Decodable Sentences --- */
+  .sentence-card {
+    padding: 1rem;
+    background: var(--bg);
+    border-radius: 8px;
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.7;
+    margin: 0.4rem 0;
+    text-align: center;
+  }
+
+  /* --- Play Buttons --- */
+  .play-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.15s ease;
+    vertical-align: middle;
+    margin-right: 0.3rem;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .play-btn:active {
+    transform: scale(0.9);
+    background: var(--primary);
+    color: white;
+  }
+  .play-btn.playing {
+    background: var(--primary);
+    color: white;
+    animation: pulse-ring 0.6s ease-out;
+  }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(74,124,111,0.4); }
+    100% { box-shadow: 0 0 0 12px rgba(74,124,111,0); }
+  }
+
+  /* --- Interactive Choices --- */
+  .choices.interactive li {
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .choices.interactive li:active {
+    transform: scale(0.98);
+  }
+  .choices.interactive li.selected-correct {
+    border-color: #2f855a;
+    background: #e8f8e8;
+  }
+  .choices.interactive li.selected-wrong {
+    border-color: #c53030;
+    background: #fde8e8;
+  }
+  .choices.interactive li.reveal-correct {
+    border-color: #2f855a;
+    background: #e8f8e8;
+  }
+
+  /* --- Sound table play button column --- */
+  .sound-table .play-col {
+    width: 44px;
+    text-align: center;
+  }
+
+  /* --- Feedback banner --- */
+  .feedback-banner {
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback-banner.show { display: block; }
+  .feedback-banner.correct {
+    background: var(--primary-light);
+    color: #2d5a4e;
+  }
+  .feedback-banner.wrong {
+    background: var(--accent-light);
+    color: #8a5a38;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <h1>Calma AI</h1>
+  <div class="subtitle">Phoneme Curriculum (MVP)</div>
+  <div style="margin-top:1rem;">
+    <button id="start-practice" onclick="startPractice()" style="padding:0.6rem 1.5rem; border-radius:100px; border:2px solid rgba(255,255,255,0.5); background:rgba(255,255,255,0.15); color:white; font-size:1rem; font-weight:600; cursor:pointer; backdrop-filter:blur(4px);">Start Practice</button>
+  </div>
+</div>
+
+<!-- ===== PRACTICE AREA (dynamic exercises from AI) ===== -->
+<div id="practice-area" style="display:none; max-width:600px; margin:0 auto; padding:1.5rem;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+    <h2 style="font-size:1.1rem; color:var(--primary);">PRACTICE</h2>
+    <button onclick="closePractice()" style="padding:0.3rem 0.8rem; border-radius:6px; border:1px solid var(--border); background:var(--surface); color:var(--text-muted); font-size:0.8rem; cursor:pointer;">Back to Curriculum</button>
+  </div>
+  <div id="learner-status" class="exercise" style="margin-bottom:1rem;"></div>
+  <div id="exercise-container"></div>
+  <div id="exercise-loading" style="display:none; text-align:center; padding:2rem;">
+    <div style="font-size:0.9rem; color:var(--text-muted);">Generating exercise...</div>
+  </div>
+</div>
+
+<!-- ===== CURRICULUM REFERENCE (scrollable below) ===== -->
+<div id="curriculum-ref">
+
+<!-- ===== PRINCIPLES ===== -->
+<div class="principles">
+  <h2>Design Principles</h2>
+  <ul class="principle-list">
+    <li>Start with <strong>easy, continuous sounds</strong> (/m/, /n/, /s/) &mdash; easy to hear and say</li>
+    <li>Progress to <strong>stops and fricatives</strong> (/p/, /b/, /t/, /k/, /f/)</li>
+    <li>Finish with <strong>complex sounds</strong> (/sh/, /ch/, /th/, /r/, /l/)</li>
+    <li>Each sound is taught through a <strong>5-step cycle</strong></li>
+  </ul>
+</div>
+
+<!-- ===== TEACHING CYCLE ===== -->
+<div class="cycle">
+  <h2>Teaching Cycle</h2>
+  <div class="cycle-steps">
+    <div class="cycle-step">
+      <div class="step-num">1</div>
+      <div class="step-text"><strong>Listen</strong> &mdash; hear the sound in isolation</div>
+    </div>
+    <div class="cycle-step">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Watch</strong> &mdash; see mouth shape &amp; pronunciation</div>
+    </div>
+    <div class="cycle-step">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Repeat</strong> &mdash; say the sound aloud</div>
+    </div>
+    <div class="cycle-step">
+      <div class="step-num">4</div>
+      <div class="step-text"><strong>Label</strong> &mdash; recognise the phoneme symbol (/s/)</div>
+    </div>
+    <div class="cycle-step">
+      <div class="step-num">5</div>
+      <div class="step-text"><strong>Match</strong> &mdash; connect to the written letter (s)</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ===================================================== -->
+<!-- STAGE 1                                                -->
+<!-- ===================================================== -->
+<div class="stage-header" style="border-bottom-color: var(--stage1);">
+  <div class="stage-label" style="color: var(--stage1);">Stage 1</div>
+  <h2>Easy, Continuous Sounds</h2>
+  <div class="sessions">Sessions 1&ndash;5</div>
+</div>
+
+<div class="stage-page">
+  <table class="sound-table">
+    <thead>
+      <tr><th class="play-col"></th><th>Sound</th><th>Example</th><th>Label</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="m" aria-label="Play /m/">&#9654;</button></td><td class="phoneme">/m/</td><td class="example">"mmm"</td><td>/m/</td><td class="notes">Lips together, continuous hum</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="n" aria-label="Play /n/">&#9654;</button></td><td class="phoneme">/n/</td><td class="example">"nnn"</td><td>/n/</td><td class="notes">Tongue behind teeth, continuous hum</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="s" aria-label="Play /s/">&#9654;</button></td><td class="phoneme">/s/</td><td class="example">"sss"</td><td>/s/</td><td class="notes">Hissing sound, continuous</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="f" aria-label="Play /f/">&#9654;</button></td><td class="phoneme">/f/</td><td class="example">"fff"</td><td>/f/</td><td class="notes">Upper teeth on lower lip</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="h" aria-label="Play /h/">&#9654;</button></td><td class="phoneme">/h/</td><td class="example">"hhh"</td><td>/h/</td><td class="notes">Exhale, open mouth</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Exercise 1.1 — Interactive -->
+  <div class="exercise" id="ex-1-1">
+    <div class="exercise-id">Exercise 1.1</div>
+    <span class="exercise-type type-listen">Listen &amp; Identify</span>
+    <h4>Sound Isolation: /m/</h4>
+    <div class="prompt">"I'm going to say three sounds. Tap each to listen, then tap the one that is <em>/m/</em>."</div>
+    <ul class="choices interactive" id="ex-1-1-choices" data-correct="1" data-answered="false">
+      <li data-phoneme="s" data-index="0"><button class="play-btn" data-phoneme="s">&#9654;</button> "sss"</li>
+      <li data-phoneme="m" data-index="1"><button class="play-btn" data-phoneme="m">&#9654;</button> "mmm"</li>
+      <li data-phoneme="f" data-index="2"><button class="play-btn" data-phoneme="f">&#9654;</button> "fff"</li>
+    </ul>
+    <div class="feedback-banner" id="ex-1-1-feedback"></div>
+    <div class="teaching-moment tm-correct" style="display:none" id="ex-1-1-tm-correct">
+      <strong>On correct</strong>
+      "Yes! /m/ is the humming sound. Your lips are together and the sound comes through your nose."
+    </div>
+    <div class="teaching-moment tm-incorrect" style="display:none" id="ex-1-1-tm-incorrect">
+      <strong>On incorrect</strong>
+      "Let's listen again. /m/ is the humming sound &mdash; press your lips together and try 'mmm'."
+    </div>
+  </div>
+
+  <!-- Exercise 1.2 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 1.2</div>
+    <span class="exercise-type type-watch">Watch &amp; Repeat</span>
+    <h4>Mouth Awareness: /m/</h4>
+    <div class="prompt">"Watch my lips. They press together for /m/. Now you try &mdash; say <em>'mmm'</em> for 3 seconds."</div>
+    <p class="app-note">Video/animation of mouth closing for /m/. Microphone input verifies &#8805;2s of voiced sound.</p>
+  </div>
+
+  <!-- Exercise 1.3 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 1.3</div>
+    <span class="exercise-type type-listen">Listen &amp; Tap</span>
+    <h4>Sound vs. Silence: /s/</h4>
+    <div class="prompt">"Tap <strong>Play All</strong> to hear the sequence. Hit <strong>TAP!</strong> every time you hear <em>/s/</em>."</div>
+    <div style="text-align:center; margin:0.75rem 0;">
+      <button class="play-btn" id="ex-1-3-play" style="width:auto; border-radius:8px; padding:0.5rem 1.2rem; font-size:0.9rem; font-weight:600;" aria-label="Play sequence">&#9654; Play All</button>
+    </div>
+    <div id="ex-1-3-sequence" style="display:flex; gap:0.4rem; justify-content:center; margin:0.5rem 0; flex-wrap:wrap;"></div>
+    <div style="text-align:center; margin:0.75rem 0;">
+      <button id="ex-1-3-tap" disabled style="padding:0.6rem 2rem; border-radius:8px; border:2px solid var(--border); background:var(--bg); color:var(--text-muted); font-weight:700; font-size:1rem; cursor:pointer; transition: all 0.15s;">TAP!</button>
+    </div>
+    <div class="feedback-banner" id="ex-1-3-feedback"></div>
+    <div class="pass-criteria">Expected taps: 2</div>
+  </div>
+
+  <!-- Exercise 1.4 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 1.4</div>
+    <span class="exercise-type type-listen">Discrimination Pair</span>
+    <h4>Sound Matching: /f/ and /s/</h4>
+    <div class="prompt">"Are these two sounds the <em>same</em> or <em>different</em>?"</div>
+    <table class="trials">
+      <thead><tr><th>Sound A</th><th>Sound B</th><th>Answer</th></tr></thead>
+      <tbody>
+        <tr><td>"fff"</td><td>"fff"</td><td class="answer">Same</td></tr>
+        <tr><td>"sss"</td><td>"fff"</td><td class="answer">Different</td></tr>
+        <tr><td>"sss"</td><td>"sss"</td><td class="answer">Same</td></tr>
+        <tr><td>"fff"</td><td>"sss"</td><td class="answer">Different</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Exercise 1.5 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 1.5</div>
+    <span class="exercise-type type-label">Label Recall</span>
+    <h4>Phoneme Labelling: Stage 1</h4>
+    <div class="prompt">"You hear 'sss'. Which label is it?"</div>
+    <ul class="choices">
+      <li>/m/</li>
+      <li>/n/</li>
+      <li class="correct">/s/ <span class="check">&#10003;</span></li>
+      <li>/f/</li>
+    </ul>
+  </div>
+
+  <!-- Exercise 1.6 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 1.6</div>
+    <span class="exercise-type type-letter">Letter Match</span>
+    <h4>Sound-to-Letter Bridge: /s/ &rarr; s</h4>
+    <div class="prompt">"The sound <em>/s/</em> is written with this letter. Which one?"</div>
+    <ul class="choices">
+      <li>m</li>
+      <li>f</li>
+      <li class="correct">s <span class="check">&#10003;</span></li>
+    </ul>
+    <div class="teaching-moment tm-info">
+      <strong>Teaching moment</strong>
+      "The letter <strong>s</strong> makes the 'sss' sound. Trace the letter with your finger."
+    </div>
+  </div>
+
+  <!-- Exercise 1.7 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 1.7</div>
+    <span class="exercise-type type-review">Sound Bingo</span>
+    <h4>All Stage 1 Sounds Review</h4>
+    <div class="prompt">"Audio plays sounds in random order. Tap the matching label!"</div>
+    <div class="bingo-grid bingo-5">
+      <div class="bingo-cell">/m/</div>
+      <div class="bingo-cell">/n/</div>
+      <div class="bingo-cell">/s/</div>
+      <div class="bingo-cell">/f/</div>
+      <div class="bingo-cell">/h/</div>
+    </div>
+    <div class="pass-criteria">Pass: 4/5 correct</div>
+  </div>
+
+  <!-- Exercise 1.8 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 1.8</div>
+    <span class="exercise-type type-repeat">Say &amp; Record</span>
+    <h4>Production Check: Full Stage 1</h4>
+    <div class="prompt">"Say each sound after me."</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">
+      App plays: /m/ &rarr; repeat &rarr; /n/ &rarr; repeat &rarr; /s/ &rarr; repeat &rarr; /f/ &rarr; repeat &rarr; /h/ &rarr; repeat
+    </p>
+    <p class="app-note">Teacher/parent review or speech recognition confirmation.</p>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ===================================================== -->
+<!-- STAGE 2                                                -->
+<!-- ===================================================== -->
+<div class="stage-header" style="border-bottom-color: var(--stage2);">
+  <div class="stage-label" style="color: var(--stage2);">Stage 2</div>
+  <h2>Stops (Simple Plosives)</h2>
+  <div class="sessions">Sessions 6&ndash;10</div>
+</div>
+
+<div class="stage-page">
+  <table class="sound-table">
+    <thead>
+      <tr><th class="play-col"></th><th>Sound</th><th>Example</th><th>Label</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="p" aria-label="Play /p/">&#9654;</button></td><td class="phoneme">/p/</td><td class="example">"puh"</td><td>/p/</td><td class="notes">Lip stop, short burst</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="b" aria-label="Play /b/">&#9654;</button></td><td class="phoneme">/b/</td><td class="example">"buh"</td><td>/b/</td><td class="notes">Lip stop, voiced</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="t" aria-label="Play /t/">&#9654;</button></td><td class="phoneme">/t/</td><td class="example">"tuh"</td><td>/t/</td><td class="notes">Tongue behind teeth</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="d" aria-label="Play /d/">&#9654;</button></td><td class="phoneme">/d/</td><td class="example">"duh"</td><td>/d/</td><td class="notes">Tongue behind teeth, voiced</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="k" aria-label="Play /k/">&#9654;</button></td><td class="phoneme">/k/</td><td class="example">"kuh"</td><td>/k/</td><td class="notes">Back of tongue</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="g" aria-label="Play /g/">&#9654;</button></td><td class="phoneme">/g/</td><td class="example">"guh"</td><td>/g/</td><td class="notes">Back of tongue, voiced</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Exercise 2.1 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 2.1</div>
+    <span class="exercise-type type-sort">Category Sort</span>
+    <h4>Continuous vs. Stop Contrast</h4>
+    <div class="prompt">"Some sounds keep going (like 'sss'), and some are short bursts (like 'puh'). <em>Sort these sounds.</em>"</div>
+    <table class="trials">
+      <thead><tr><th>Sound</th><th>Category</th></tr></thead>
+      <tbody>
+        <tr><td>"mmm"</td><td class="answer">Continuous</td></tr>
+        <tr><td>"puh"</td><td class="answer">Stop</td></tr>
+        <tr><td>"sss"</td><td class="answer">Continuous</td></tr>
+        <tr><td>"tuh"</td><td class="answer">Stop</td></tr>
+        <tr><td>"buh"</td><td class="answer">Stop</td></tr>
+        <tr><td>"fff"</td><td class="answer">Continuous</td></tr>
+      </tbody>
+    </table>
+    <div class="teaching-moment tm-info">
+      <strong>Teaching moment</strong>
+      "Stops are quick! The air gets blocked and then pops out. Continuous sounds can go on and on."
+    </div>
+  </div>
+
+  <!-- Exercise 2.2 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 2.2</div>
+    <span class="exercise-type type-listen">Discrimination + Tactile</span>
+    <h4>Voicing Pair: /p/ vs. /b/</h4>
+    <div class="prompt">"Put your hand on your throat. Say 'puh'. Now say 'buh'. <em>Which one makes your throat buzz?</em>"</div>
+    <ul class="choices">
+      <li>/p/</li>
+      <li class="correct">/b/ <span class="check">&#10003;</span></li>
+    </ul>
+    <div style="margin-top:0.75rem;">
+      <div style="font-size:0.85rem; font-weight:600; margin-bottom:0.4rem;">Follow-up discrimination:</div>
+      <table class="trials">
+        <thead><tr><th>Sound</th><th>Answer</th></tr></thead>
+        <tbody>
+          <tr><td>"puh"</td><td class="answer">/p/</td></tr>
+          <tr><td>"buh"</td><td class="answer">/b/</td></tr>
+          <tr><td>"buh"</td><td class="answer">/b/</td></tr>
+          <tr><td>"puh"</td><td class="answer">/p/</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Exercise 2.3 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 2.3</div>
+    <span class="exercise-type type-listen">Discrimination + Tactile</span>
+    <h4>Voicing Pair: /t/ vs. /d/</h4>
+    <div class="prompt">"Both /t/ and /d/ use your tongue behind your top teeth. <em>/d/ is the buzzy one.</em>"</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">6 randomised presentations of /t/ and /d/</p>
+    <div class="pass-criteria">Pass: 5/6 correct</div>
+  </div>
+
+  <!-- Exercise 2.4 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 2.4</div>
+    <span class="exercise-type type-listen">Discrimination + Tactile</span>
+    <h4>Voicing Pair: /k/ vs. /g/</h4>
+    <div class="prompt">"These sounds happen at the back of your mouth. <em>/k/ is quiet in your throat, /g/ is buzzy.</em>"</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">Same structure as 2.2 &mdash; tactile + discrimination trials</p>
+  </div>
+
+  <!-- Exercise 2.5 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 2.5</div>
+    <span class="exercise-type type-listen">Odd One Out</span>
+    <h4>Identify the Outlier</h4>
+    <div class="prompt">"Which sound is <em>different</em>?"</div>
+    <table class="trials">
+      <thead><tr><th>Sounds</th><th>Odd one</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>/p/ &nbsp;/p/ &nbsp;/b/</td><td class="answer">/b/</td><td class="notes">voiced vs. voiceless</td></tr>
+        <tr><td>/t/ &nbsp;/k/ &nbsp;/t/</td><td class="answer">/k/</td><td class="notes">different place</td></tr>
+        <tr><td>/d/ &nbsp;/d/ &nbsp;/t/</td><td class="answer">/t/</td><td class="notes">voiceless among voiced</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Exercise 2.6 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 2.6</div>
+    <span class="exercise-type type-letter">Rapid Match</span>
+    <h4>Sound-to-Letter: All 6 Stops</h4>
+    <div class="prompt">"App plays a stop sound. Select the matching letter!"</div>
+    <div class="bingo-grid bingo-6">
+      <div class="bingo-cell">p</div>
+      <div class="bingo-cell">b</div>
+      <div class="bingo-cell">t</div>
+      <div class="bingo-cell">d</div>
+      <div class="bingo-cell">k</div>
+      <div class="bingo-cell">g</div>
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">12 trials (each letter twice), randomised. Timer optional.</p>
+    <div class="pass-criteria">Pass: 10/12 correct</div>
+  </div>
+
+  <!-- Exercise 2.7 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 2.7</div>
+    <span class="exercise-type type-review">Phoneme Bingo</span>
+    <h4>Stages 1+2 Combined Review</h4>
+    <div class="prompt">"Random audio plays. Tap the correct label!"</div>
+    <div class="bingo-grid bingo-11">
+      <div class="bingo-cell">/m/</div>
+      <div class="bingo-cell">/n/</div>
+      <div class="bingo-cell">/s/</div>
+      <div class="bingo-cell">/f/</div>
+      <div class="bingo-cell">/h/</div>
+      <div class="bingo-cell">/p/</div>
+      <div class="bingo-cell">/b/</div>
+      <div class="bingo-cell">/t/</div>
+      <div class="bingo-cell">/d/</div>
+      <div class="bingo-cell">/k/</div>
+      <div class="bingo-cell">/g/</div>
+    </div>
+    <div class="pass-criteria">Pass: 9/11 correct</div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ===================================================== -->
+<!-- STAGE 3                                                -->
+<!-- ===================================================== -->
+<div class="stage-header" style="border-bottom-color: var(--stage3);">
+  <div class="stage-label" style="color: var(--stage3);">Stage 3</div>
+  <h2>Fricatives &amp; Affricates</h2>
+  <div class="sessions">Sessions 11&ndash;16</div>
+</div>
+
+<div class="stage-page">
+  <table class="sound-table">
+    <thead>
+      <tr><th class="play-col"></th><th>Sound</th><th>Example</th><th>Label</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="v" aria-label="Play /v/">&#9654;</button></td><td class="phoneme">/v/</td><td class="example">"vvv"</td><td>/v/</td><td class="notes">Upper teeth on lower lip, voiced</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="z" aria-label="Play /z/">&#9654;</button></td><td class="phoneme">/z/</td><td class="example">"zzz"</td><td>/z/</td><td class="notes">Voiced hissing</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="sh" aria-label="Play /sh/">&#9654;</button></td><td class="phoneme">/&#x283;/</td><td class="example">"shh"</td><td>/&#x283;/</td><td class="notes">Tongue raised, hissing</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="ch" aria-label="Play /ch/">&#9654;</button></td><td class="phoneme">/t&#x283;/</td><td class="example">"ch"</td><td>/t&#x283;/</td><td class="notes">Tongue stop + fricative</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="th" aria-label="Play /th/">&#9654;</button></td><td class="phoneme">/&theta;/</td><td class="example">"th"</td><td>/&theta;/ /&eth;/</td><td class="notes">Tongue between teeth</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Exercise 3.1 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 3.1</div>
+    <span class="exercise-type type-listen">Voicing Contrast</span>
+    <h4>Building on Known: /f/ &rarr; /v/</h4>
+    <div class="prompt">"You already know /f/ &mdash; the quiet breathy one. Now meet <em>/v/</em> &mdash; same mouth shape, but with a buzz!"</div>
+    <div class="teaching-moment tm-info">
+      <strong>Tactile cue</strong>
+      "Put your fingers on your throat. Say 'fff'. No buzz. Now say 'vvv'. Feel the buzz?"
+    </div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">8 discrimination trials of /f/ vs. /v/</p>
+    <div class="pass-criteria">Pass: 7/8 correct</div>
+  </div>
+
+  <!-- Exercise 3.2 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 3.2</div>
+    <span class="exercise-type type-listen">Voicing Contrast</span>
+    <h4>Building on Known: /s/ &rarr; /z/</h4>
+    <div class="prompt">"<em>/s/</em> is the snake sound. <em>/z/</em> is the bee sound. Same tongue position, different buzzing."</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">Same structure as 3.1 &mdash; 8 discrimination trials</p>
+  </div>
+
+  <!-- Exercise 3.3 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 3.3</div>
+    <span class="exercise-type type-watch">Listen &amp; Articulate</span>
+    <h4>New Sound: /&#x283;/ (sh)</h4>
+    <div class="prompt">"This is the 'quiet' sound &mdash; 'shh'. Your tongue goes up and your lips push forward a little, like you're blowing a candle gently."</div>
+    <p style="font-size:0.85rem; margin:0.5rem 0;"><strong>Step 1:</strong> Listen to /&#x283;/ three times<br>
+    <strong>Step 2:</strong> Repeat /&#x283;/ for 3 seconds (mic check)<br>
+    <strong>Step 3:</strong> Discriminate /&#x283;/ from /s/:</p>
+    <table class="trials">
+      <thead><tr><th>Sound</th><th>Answer</th></tr></thead>
+      <tbody>
+        <tr><td>"sss"</td><td class="answer">/s/</td></tr>
+        <tr><td>"shh"</td><td class="answer">/&#x283;/</td></tr>
+        <tr><td>"shh"</td><td class="answer">/&#x283;/</td></tr>
+        <tr><td>"sss"</td><td class="answer">/s/</td></tr>
+        <tr><td>"shh"</td><td class="answer">/&#x283;/</td></tr>
+        <tr><td>"sss"</td><td class="answer">/s/</td></tr>
+      </tbody>
+    </table>
+    <div class="pass-criteria">Pass: 5/6 correct</div>
+  </div>
+
+  <!-- Exercise 3.4 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 3.4</div>
+    <span class="exercise-type type-listen">Combination Discovery</span>
+    <h4>Affricate: /t&#x283;/ (ch)</h4>
+    <div class="prompt">"This sound is special &mdash; it starts like /t/ (a stop) and ends like /&#x283;/ (a slide). Listen: 'ch'. <em>It's quick &mdash; stop then slide!</em>"</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">
+      <strong>Isolation:</strong> "Is this /t&#x283;/ or /&#x283;/?" (8 trials)<br>
+      <strong>Production:</strong> "Say 'ch' three times. Make sure it starts with a little pop."
+    </p>
+  </div>
+
+  <!-- Exercise 3.5 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 3.5</div>
+    <span class="exercise-type type-watch">Tactile + Visual</span>
+    <h4>The /&theta;/ and /&eth;/ Pair (th)</h4>
+    <div class="prompt">"Stick your tongue out a little between your teeth. Now blow air over it &mdash; that's <em>/&theta;/</em> (like 'think'). Now add your voice &mdash; that's <em>/&eth;/</em> (like 'this')."</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">Mirror/camera exercise: "Can you see your tongue? Good!"</p>
+    <p style="font-size:0.9rem; color:var(--text-muted);">8 discrimination trials, /&theta;/ vs. /&eth;/</p>
+    <p class="app-note">These are the hardest fricatives. Allow more repetition &mdash; don't gate progress on perfection here.</p>
+  </div>
+
+  <!-- Exercise 3.6 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 3.6</div>
+    <span class="exercise-type type-letter">Two-Letter Awareness</span>
+    <h4>Stage 3 Letter Mapping</h4>
+    <div class="prompt">"Some sounds need <em>TWO letters</em> to write! 'sh' is two letters for one sound. We call this a <em>digraph</em>."</div>
+    <table class="trials">
+      <thead><tr><th>Sound</th><th>Letters</th></tr></thead>
+      <tbody>
+        <tr><td>/v/</td><td class="answer">v</td></tr>
+        <tr><td>/z/</td><td class="answer">z</td></tr>
+        <tr><td>/&#x283;/</td><td class="answer">sh</td></tr>
+        <tr><td>/t&#x283;/</td><td class="answer">ch</td></tr>
+        <tr><td>/&theta;/</td><td class="answer">th</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ===================================================== -->
+<!-- STAGE 4                                                -->
+<!-- ===================================================== -->
+<div class="stage-header" style="border-bottom-color: var(--stage4);">
+  <div class="stage-label" style="color: var(--stage4);">Stage 4</div>
+  <h2>Liquids &amp; Harder Consonants</h2>
+  <div class="sessions">Sessions 17&ndash;20</div>
+</div>
+
+<div class="stage-page">
+  <table class="sound-table">
+    <thead>
+      <tr><th class="play-col"></th><th>Sound</th><th>Example</th><th>Label</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="r" aria-label="Play /r/">&#9654;</button></td><td class="phoneme">/r/</td><td class="example">"rrr"</td><td>/r/</td><td class="notes">Tongue slightly back, rolled or bunched</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="l" aria-label="Play /l/">&#9654;</button></td><td class="phoneme">/l/</td><td class="example">"lll"</td><td>/l/</td><td class="notes">Tongue tip at alveolar ridge</td></tr>
+      <tr><td class="play-col"><button class="play-btn" data-phoneme="y" aria-label="Play /j/">&#9654;</button></td><td class="phoneme">/j/</td><td class="example">"yuh"</td><td>/j/</td><td class="notes">Glide consonant</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Exercise 4.1 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 4.1</div>
+    <span class="exercise-type type-watch">Approximation + Patience</span>
+    <h4>/r/ Introduction</h4>
+    <div class="prompt">"This is one of the trickiest sounds! Pull your tongue slightly back and make a sound like a quiet engine: <em>'rrr'</em>."</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">
+      <strong>1.</strong> Listen to /r/ modeled 5 times (slow, exaggerated)<br>
+      <strong>2.</strong> 3-way discrimination: /r/ vs. /l/ vs. /w/ (8 trials)
+    </p>
+    <p class="app-note">/r/ may take many sessions. Track attempts and offer encouragement without gating.</p>
+  </div>
+
+  <!-- Exercise 4.2 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 4.2</div>
+    <span class="exercise-type type-watch">Tongue Placement Focus</span>
+    <h4>/l/ Introduction</h4>
+    <div class="prompt">"Touch the bumpy ridge behind your top teeth with your tongue tip. Now let sound come out around the sides &mdash; <em>'lll'</em>."</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">Discrimination from /r/ and /n/ (8 trials) + production practice</p>
+  </div>
+
+  <!-- Exercise 4.3 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 4.3</div>
+    <span class="exercise-type type-listen">Glide Discovery</span>
+    <h4>/j/ (y) Introduction</h4>
+    <div class="prompt">"Start saying 'eee' and then open your mouth &mdash; you just made <em>/j/</em>! That's the sound at the start of 'yes'."</div>
+    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;">Discrimination from /l/ &mdash; 6 trials</p>
+  </div>
+
+  <!-- Exercise 4.4 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 4.4</div>
+    <span class="exercise-type type-sort">Multi-Category Sort</span>
+    <h4>All Consonants: The Grand Sort</h4>
+    <div class="prompt">"Sort all the sounds you know into their families!"</div>
+    <table class="trials">
+      <thead><tr><th>Family</th><th>Sounds</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Lip sounds</strong></td><td>/m/ /p/ /b/ /f/ /v/</td></tr>
+        <tr><td><strong>Tongue-tip</strong></td><td>/n/ /t/ /d/ /s/ /z/ /l/ /r/</td></tr>
+        <tr><td><strong>Tongue-back</strong></td><td>/k/ /g/</td></tr>
+        <tr><td><strong>Throat</strong></td><td>/h/</td></tr>
+        <tr><td><strong>Special combos</strong></td><td>/&#x283;/ /t&#x283;/ /&theta;/ /&eth;/</td></tr>
+        <tr><td><strong>Glide</strong></td><td>/j/</td></tr>
+      </tbody>
+    </table>
+    <div class="teaching-moment tm-info">
+      <strong>Capstone exercise</strong>
+      This builds the complete articulatory mental map &mdash; learners understand <em>where</em> in the mouth each sound is made.
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ===================================================== -->
+<!-- STAGE 5                                                -->
+<!-- ===================================================== -->
+<div class="stage-header" style="border-bottom-color: var(--stage5);">
+  <div class="stage-label" style="color: var(--stage5);">Stage 5</div>
+  <h2>Vowels</h2>
+  <div class="sessions">Sessions 21&ndash;25</div>
+</div>
+
+<div class="stage-page">
+  <p style="font-size:0.85rem; color:var(--text-muted); padding-top:1rem; font-style:italic;">
+    Vowels are best introduced once consonant discrimination is underway, because most reading errors come from consonant confusions.
+  </p>
+
+  <!-- Exercise 5.1 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 5.1</div>
+    <span class="exercise-type type-listen">Vowel Space Exploration</span>
+    <h4>Short Vowels</h4>
+    <div class="prompt">"Vowels are sounds where the air flows freely &mdash; no blocking! Let's explore five short vowels."</div>
+    <p style="font-size:0.9rem; margin-top:0.5rem;">For each vowel, three steps:</p>
+    <table class="trials">
+      <thead><tr><th>Vowel</th><th>In a word</th><th>Question</th></tr></thead>
+      <tbody>
+        <tr><td class="answer">/&aelig;/</td><td>"cat"</td><td>"What's in the middle of 'cat'?"</td></tr>
+        <tr><td class="answer">/&#x25B;/</td><td>"bed"</td><td>"What's in the middle of 'bed'?"</td></tr>
+        <tr><td class="answer">/&#x26A;/</td><td>"sit"</td><td>"What's in the middle of 'sit'?"</td></tr>
+        <tr><td class="answer">/&#x252;/</td><td>"hot"</td><td>"What's in the middle of 'hot'?"</td></tr>
+        <tr><td class="answer">/&#x28C;/</td><td>"cup"</td><td>"What's in the middle of 'cup'?"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Exercise 5.2 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 5.2</div>
+    <span class="exercise-type type-listen">Minimal Pairs</span>
+    <h4>Vowel Discrimination</h4>
+    <div class="prompt">"Are these two words the <em>same</em> or <em>different</em>?"</div>
+    <table class="trials">
+      <thead><tr><th>Word A</th><th>Word B</th><th>Answer</th></tr></thead>
+      <tbody>
+        <tr><td>"cat"</td><td>"cut"</td><td class="answer">Different</td></tr>
+        <tr><td>"bed"</td><td>"bed"</td><td class="answer">Same</td></tr>
+        <tr><td>"sit"</td><td>"set"</td><td class="answer">Different</td></tr>
+        <tr><td>"hot"</td><td>"hut"</td><td class="answer">Different</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Exercise 5.3 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 5.3</div>
+    <span class="exercise-type type-letter">Vowel Letter Match</span>
+    <h4>Short Vowel to Letter</h4>
+    <div class="prompt">"Which letter makes the middle sound in <em>'sit'</em>?"</div>
+    <ul class="choices">
+      <li>a</li>
+      <li>e</li>
+      <li class="correct">i <span class="check">&#10003;</span></li>
+      <li>o</li>
+      <li>u</li>
+    </ul>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">Repeat for all 5 short vowels.</p>
+  </div>
+
+  <!-- Exercise 5.4 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 5.4</div>
+    <span class="exercise-type type-label">Transformation Discovery</span>
+    <h4>Long Vowels: The Magic-e</h4>
+    <div class="prompt">"Watch what happens when we add an 'e' to the end!"</div>
+    <div style="display:flex; flex-direction:column; gap:0.4rem; margin:0.75rem 0;">
+      <div class="word-example"><span class="word">cap</span> <span class="arrow">&rarr;</span> <span class="word">cape</span> <span class="phon">(/&aelig;/ &rarr; /e&#x26A;/)</span></div>
+      <div class="word-example"><span class="word">bit</span> <span class="arrow">&rarr;</span> <span class="word">bite</span> <span class="phon">(/&#x26A;/ &rarr; /a&#x26A;/)</span></div>
+      <div class="word-example"><span class="word">hop</span> <span class="arrow">&rarr;</span> <span class="word">hope</span> <span class="phon">(/&#x252;/ &rarr; /o&#x28A;/)</span></div>
+      <div class="word-example"><span class="word">cut</span> <span class="arrow">&rarr;</span> <span class="word">cute</span> <span class="phon">(/&#x28C;/ &rarr; /ju&#x2D0;/)</span></div>
+    </div>
+    <div class="teaching-moment tm-info">
+      <strong>Teaching moment</strong>
+      "The silent 'e' changes the vowel from short to long! We call this the <strong>magic-e</strong>."
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ===================================================== -->
+<!-- STAGE 6                                                -->
+<!-- ===================================================== -->
+<div class="stage-header" style="border-bottom-color: var(--stage6);">
+  <div class="stage-label" style="color: var(--stage6);">Stage 6</div>
+  <h2>Blending &mdash; Words &amp; Sentences</h2>
+  <div class="sessions">Sessions 26+</div>
+</div>
+
+<div class="stage-page">
+
+  <!-- Exercise 6.1 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 6.1</div>
+    <span class="exercise-type type-blend">CVC Blending</span>
+    <h4>Sound-by-Sound &rarr; Word</h4>
+    <div class="prompt">"Let's put sounds together! Listen: /s/ &mdash; /&aelig;/ &mdash; /t/. Now blend them: <em>'sat'</em>!"</div>
+    <div style="display:flex; flex-direction:column; gap:0.35rem; margin:0.75rem 0;">
+      <div class="blend-word">
+        <span class="blend-phoneme">/m/</span>
+        <span class="blend-phoneme">/&aelig;/</span>
+        <span class="blend-phoneme">/t/</span>
+        <span class="blend-arrow">&rarr;</span>
+        <span class="blend-result">mat</span>
+      </div>
+      <div class="blend-word">
+        <span class="blend-phoneme">/s/</span>
+        <span class="blend-phoneme">/&#x26A;/</span>
+        <span class="blend-phoneme">/t/</span>
+        <span class="blend-arrow">&rarr;</span>
+        <span class="blend-result">sit</span>
+      </div>
+      <div class="blend-word">
+        <span class="blend-phoneme">/p/</span>
+        <span class="blend-phoneme">/&#x26A;/</span>
+        <span class="blend-phoneme">/n/</span>
+        <span class="blend-arrow">&rarr;</span>
+        <span class="blend-result">pin</span>
+      </div>
+      <div class="blend-word">
+        <span class="blend-phoneme">/h/</span>
+        <span class="blend-phoneme">/&#x252;/</span>
+        <span class="blend-phoneme">/t/</span>
+        <span class="blend-arrow">&rarr;</span>
+        <span class="blend-result">hot</span>
+      </div>
+      <div class="blend-word">
+        <span class="blend-phoneme">/k/</span>
+        <span class="blend-phoneme">/&#x28C;/</span>
+        <span class="blend-phoneme">/p/</span>
+        <span class="blend-arrow">&rarr;</span>
+        <span class="blend-result">cup</span>
+      </div>
+      <div class="blend-word">
+        <span class="blend-phoneme">/b/</span>
+        <span class="blend-phoneme">/&#x25B;/</span>
+        <span class="blend-phoneme">/d/</span>
+        <span class="blend-arrow">&rarr;</span>
+        <span class="blend-result">bed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exercise 6.2 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 6.2</div>
+    <span class="exercise-type type-blend">Segmenting</span>
+    <h4>Word &rarr; Sounds (Reverse)</h4>
+    <div class="prompt">"I say a word. You tell me the sounds. <em>'map'</em> &mdash; what are the three sounds?"</div>
+    <table class="trials">
+      <thead><tr><th>Word</th><th>Sounds</th></tr></thead>
+      <tbody>
+        <tr><td><strong>map</strong></td><td class="answer">/m/ &mdash; /&aelig;/ &mdash; /p/</td></tr>
+        <tr><td><strong>dog</strong></td><td class="answer">/d/ &mdash; /&#x252;/ &mdash; /g/</td></tr>
+        <tr><td><strong>fun</strong></td><td class="answer">/f/ &mdash; /&#x28C;/ &mdash; /n/</td></tr>
+        <tr><td><strong>ten</strong></td><td class="answer">/t/ &mdash; /&#x25B;/ &mdash; /n/</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Exercise 6.3 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 6.3</div>
+    <span class="exercise-type type-blend">Consonant Clusters</span>
+    <h4>CCVC and CVCC Blending</h4>
+    <div class="prompt">"Now let's try words with sounds close together!"</div>
+    <div style="display:flex; flex-direction:column; gap:0.35rem; margin:0.75rem 0;">
+      <div class="blend-word">
+        <span class="blend-phoneme">/s/</span>
+        <span class="blend-phoneme">/t/</span>
+        <span class="blend-phoneme">/&#x252;/</span>
+        <span class="blend-phoneme">/p/</span>
+        <span class="blend-arrow">&rarr;</span>
+        <span class="blend-result">stop</span>
+      </div>
+      <div class="blend-word">
+        <span class="blend-phoneme">/f/</span>
+        <span class="blend-phoneme">/&aelig;/</span>
+        <span class="blend-phoneme">/s/</span>
+        <span class="blend-phoneme">/t/</span>
+        <span class="blend-arrow">&rarr;</span>
+        <span class="blend-result">fast</span>
+      </div>
+      <div class="blend-word">
+        <span class="blend-phoneme">/h/</span>
+        <span class="blend-phoneme">/&#x25B;/</span>
+        <span class="blend-phoneme">/l/</span>
+        <span class="blend-phoneme">/p/</span>
+        <span class="blend-arrow">&rarr;</span>
+        <span class="blend-result">help</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exercise 6.4 -->
+  <div class="exercise">
+    <div class="exercise-id">Exercise 6.4</div>
+    <span class="exercise-type type-blend">Decodable Sentences</span>
+    <h4>Sentence Reading</h4>
+    <div class="prompt">"Read this sentence. You know <em>all</em> these sounds!"</div>
+    <div class="sentence-card">The fat cat sat on a mat.</div>
+    <div class="sentence-card">He got a big red cup.</div>
+    <div class="sentence-card">Sam has a fun pet.</div>
+    <div class="teaching-moment tm-correct">
+      <strong>Milestone</strong>
+      Celebrate! The learner is reading complete sentences using sounds they've mastered.
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ===================================================== -->
+<!-- ASSESSMENT                                             -->
+<!-- ===================================================== -->
+<div class="stage-header" style="border-bottom-color: var(--text-muted);">
+  <div class="stage-label" style="color: var(--text-muted);">Progression</div>
+  <h2>Assessment &amp; Adaptive Logic</h2>
+</div>
+
+<div class="stage-page">
+  <table class="assess-table">
+    <thead>
+      <tr><th>Criterion</th><th>Threshold</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Sound discrimination</td>
+        <td class="threshold">&ge; 80%</td>
+        <td>Unlock next stage</td>
+      </tr>
+      <tr>
+        <td>Sound-to-letter</td>
+        <td class="threshold">&ge; 75%</td>
+        <td>Unlock letter exercises</td>
+      </tr>
+      <tr>
+        <td>Production (teacher)</td>
+        <td class="threshold">Acceptable attempt</td>
+        <td>Don't gate on production alone</td>
+      </tr>
+      <tr>
+        <td>CVC blending</td>
+        <td class="threshold">3/5 words</td>
+        <td>Unlock CCVC/CVCC</td>
+      </tr>
+      <tr>
+        <td>Retention (24h later)</td>
+        <td class="threshold">&ge; 70%</td>
+        <td>Proceed; else revisit</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="exercise">
+    <h4>Spaced Repetition</h4>
+    <p style="font-size:0.9rem; line-height:1.6;">Sounds from earlier stages appear in <strong>20%</strong> of exercises at later stages to prevent decay.</p>
+  </div>
+
+  <div class="exercise">
+    <h4>Adaptive Difficulty</h4>
+    <p style="font-size:0.9rem; line-height:1.6;">If a learner gets <strong>3 wrong in a row</strong> on a specific sound pair (e.g., /s/ vs. /&#x283;/), insert targeted remediation exercises for that pair before continuing.</p>
+  </div>
+</div>
+
+<!-- close curriculum-ref -->
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  Calma AI &mdash; Phoneme Curriculum MVP<br>
+  April 2026
+</div>
+
+<script>
+// ============================================================
+// Navigation: Practice mode vs Curriculum reference
+// ============================================================
+function startPractice() {
+  document.getElementById('practice-area').style.display = 'block';
+  document.getElementById('curriculum-ref').style.display = 'none';
+  document.getElementById('practice-area').scrollIntoView({ behavior: 'smooth' });
+  loadStatus();
+  generateNextExercise();
+}
+function closePractice() {
+  document.getElementById('practice-area').style.display = 'none';
+  document.getElementById('curriculum-ref').style.display = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// API calls
+// ============================================================
+async function apiGenerate() {
+  const res = await fetch('/api/exercise', { method: 'POST' });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+async function apiRespond(phonemes, correct) {
+  const res = await fetch('/api/respond', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phonemes, correct })
+  });
+  return res.json();
+}
+async function apiStatus() {
+  const res = await fetch('/api/status');
+  return res.json();
+}
+
+// ============================================================
+// Status display
+// ============================================================
+async function loadStatus() {
+  try {
+    const data = await apiStatus();
+    const l = data.learner;
+    const mastered = l.mastered_sounds.length;
+    const completed = l.exercises_completed;
+    const statusDiv = document.getElementById('learner-status');
+    const accEntries = Object.entries(l.accuracy).sort((a, b) => a[1] - b[1]);
+    let accHTML = '';
+    if (accEntries.length > 0) {
+      accHTML = '<div style="display:flex; flex-wrap:wrap; gap:0.3rem; margin-top:0.5rem;">' +
+        accEntries.map(([p, a]) => {
+          const pct = Math.round(a * 100);
+          const color = a >= 0.8 ? 'var(--primary)' : a >= 0.5 ? 'var(--accent)' : '#c53030';
+          const isMastered = l.mastered_sounds.includes(p);
+          return `<span style="padding:0.2rem 0.5rem; border-radius:6px; font-size:0.8rem; font-family:monospace; background:${isMastered ? 'var(--primary-light)' : 'var(--bg)'}; color:${color}; border:1px solid ${color};">${p} ${pct}%${isMastered ? ' ✓' : ''}</span>`;
+        }).join('') + '</div>';
+    }
+    statusDiv.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); font-weight:600;">Stage ${l.current_stage}</div>
+          <div style="font-size:1.1rem; font-weight:700;">${data.stage_name}</div>
+        </div>
+        <div style="text-align:right; font-size:0.85rem; color:var(--text-muted);">
+          ${mastered} sounds mastered<br>${completed} exercises done
+        </div>
+      </div>
+      ${accHTML}
+    `;
+  } catch (e) {
+    document.getElementById('learner-status').innerHTML =
+      '<div style="color:#c53030; font-size:0.85rem;">Could not load status. Is the server running?</div>';
+  }
+}
+
+// ============================================================
+// Exercise generation and rendering
+// ============================================================
+let currentExercise = null;
+let currentTarget = null;
+
+async function generateNextExercise() {
+  const container = document.getElementById('exercise-container');
+  const loading = document.getElementById('exercise-loading');
+  container.innerHTML = '';
+  loading.style.display = 'block';
+
+  try {
+    const data = await apiGenerate();
+    currentExercise = data.exercise;
+    currentTarget = data.target;
+    loading.style.display = 'none';
+    renderExercise(currentExercise, currentTarget);
+  } catch (e) {
+    loading.style.display = 'none';
+    container.innerHTML = `<div class="exercise"><div style="color:#c53030;">Error: ${e.message}</div><button onclick="generateNextExercise()" style="margin-top:0.5rem; padding:0.4rem 1rem; border-radius:6px; border:1px solid var(--border); cursor:pointer;">Try Again</button></div>`;
+  }
+}
+
+function renderExercise(exercise, target) {
+  const container = document.getElementById('exercise-container');
+  const type = exercise.exercise_type;
+
+  // Build header
+  let html = `<div class="exercise" id="live-exercise">
+    <div class="exercise-id">${type.replace(/_/g, ' ')}</div>
+    <span class="exercise-type type-listen">${exercise.title}</span>`;
+
+  if (target.review) {
+    html += '<div style="font-size:0.75rem; color:var(--accent); font-weight:600; margin:0.25rem 0;">SPACED REVIEW</div>';
+  }
+  html += `<div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Focus: ${target.target_phonemes.join(', ')}</div>`;
+  html += `<div class="prompt">${exercise.prompt}</div>`;
+
+  // Render based on type
+  if (type === 'listen_identify') {
+    html += renderListenIdentify(exercise);
+  } else if (type === 'same_different') {
+    html += renderSameDifferent(exercise);
+  } else if (type === 'phoneme_label') {
+    html += renderPhonemeLabel(exercise);
+  } else if (type === 'letter_match') {
+    html += renderLetterMatch(exercise);
+  } else if (type === 'odd_one_out') {
+    html += renderOddOneOut(exercise);
+  } else if (type === 'voicing_pair') {
+    html += renderVoicingPair(exercise);
+  } else if (type === 'category_sort') {
+    html += renderCategorySort(exercise);
+  } else if (type === 'sound_bingo') {
+    html += renderSoundBingo(exercise);
+  } else if (type === 'cvc_blend' || type === 'segmenting' || type === 'cluster_blend') {
+    html += renderBlending(exercise);
+  } else if (type === 'rapid_match') {
+    html += renderRapidMatch(exercise);
+  } else {
+    html += renderGeneric(exercise);
+  }
+
+  html += '<div class="feedback-banner" id="live-feedback"></div>';
+  html += '<div id="live-next" style="display:none; text-align:center; margin-top:1rem;"><button onclick="onNext()" style="padding:0.6rem 1.5rem; border-radius:100px; border:2px solid var(--primary); background:var(--primary); color:white; font-size:0.95rem; font-weight:600; cursor:pointer;">Next Exercise</button></div>';
+  html += '</div>';
+  container.innerHTML = html;
+
+  // Wire up audio on the newly rendered buttons
+  container.querySelectorAll('.play-btn[data-phoneme]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      PhonemeAudio.play(btn.dataset.phoneme);
+      btn.classList.add('playing');
+      setTimeout(() => btn.classList.remove('playing'), 600);
+    });
+  });
+}
+
+function showResult(correct, phonemes) {
+  const fb = document.getElementById('live-feedback');
+  const ex = currentExercise;
+  if (correct) {
+    fb.textContent = ex.teaching_moment_correct || 'Correct!';
+    fb.className = 'feedback-banner show correct';
+  } else {
+    fb.textContent = ex.teaching_moment_incorrect || 'Not quite — try again next time.';
+    fb.className = 'feedback-banner show wrong';
+  }
+  document.getElementById('live-next').style.display = 'block';
+  apiRespond(phonemes, correct).then(() => loadStatus());
+}
+
+function onNext() {
+  generateNextExercise();
+}
+
+// ============================================================
+// Exercise renderers
+// ============================================================
+function renderListenIdentify(ex) {
+  const c = ex.content;
+  const phonemeMap = { 'm':'m','n':'n','s':'s','f':'f','h':'h','p':'p','b':'b','t':'t','d':'d','k':'k','g':'g','v':'v','z':'z','r':'r','l':'l' };
+  let html = '<ul class="choices interactive">';
+  c.choices.forEach((ch, i) => {
+    const synthKey = phonemeMap[ch.phoneme.replace(/\//g, '')] || '';
+    html += `<li data-index="${i}" data-correct="${ch.correct}" onclick="handleListenIdentifyClick(this, '${c.target}')">`;
+    if (synthKey) html += `<button class="play-btn" data-phoneme="${synthKey}">&#9654;</button>`;
+    html += ` "${ch.sound}"</li>`;
+  });
+  html += '</ul>';
+  return html;
+}
+function handleListenIdentifyClick(li, target) {
+  if (li.parentElement.dataset.answered === 'true') return;
+  li.parentElement.dataset.answered = 'true';
+  const correct = li.dataset.correct === 'true';
+  if (correct) {
+    li.classList.add('selected-correct');
+  } else {
+    li.classList.add('selected-wrong');
+    li.parentElement.querySelector('[data-correct="true"]').classList.add('reveal-correct');
+  }
+  showResult(correct, [target]);
+}
+
+function renderSameDifferent(ex) {
+  const trials = ex.content.trials;
+  let html = '<div id="sd-trials">';
+  trials.forEach((t, i) => {
+    const keyA = t.phoneme_a.replace(/\//g, '');
+    const keyB = t.phoneme_b.replace(/\//g, '');
+    html += `<div class="exercise" style="padding:0.75rem; margin:0.5rem 0;" id="sd-trial-${i}" data-answer="${t.answer}" data-phonemes="${t.phoneme_a},${t.phoneme_b}">
+      <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+        <span style="font-size:0.8rem; color:var(--text-muted);">Trial ${i+1}:</span>
+        <button class="play-btn" data-phoneme="${keyA}">&#9654;</button> "${t.sound_a}"
+        <span style="color:var(--text-muted);">&amp;</span>
+        <button class="play-btn" data-phoneme="${keyB}">&#9654;</button> "${t.sound_b}"
+      </div>
+      <div style="display:flex; gap:0.5rem;">
+        <button onclick="handleSDClick(${i}, 'same')" class="sd-btn" style="flex:1; padding:0.5rem; border-radius:8px; border:2px solid var(--border); background:var(--surface); cursor:pointer; font-weight:600;">Same</button>
+        <button onclick="handleSDClick(${i}, 'different')" class="sd-btn" style="flex:1; padding:0.5rem; border-radius:8px; border:2px solid var(--border); background:var(--surface); cursor:pointer; font-weight:600;">Different</button>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  html += `<div id="sd-submit" style="display:none; text-align:center; margin-top:0.75rem;"><button onclick="submitSD()" style="padding:0.5rem 1.5rem; border-radius:100px; border:2px solid var(--primary); background:var(--primary-light); color:var(--primary); font-weight:600; cursor:pointer;">Check Answers</button></div>`;
+  return html;
+}
+const sdAnswers = {};
+function handleSDClick(idx, answer) {
+  sdAnswers[idx] = answer;
+  const trial = document.getElementById(`sd-trial-${idx}`);
+  trial.querySelectorAll('.sd-btn').forEach(b => {
+    b.style.borderColor = 'var(--border)';
+    b.style.background = 'var(--surface)';
+  });
+  const btnIdx = answer === 'same' ? 0 : 1;
+  const btn = trial.querySelectorAll('.sd-btn')[btnIdx];
+  btn.style.borderColor = 'var(--primary)';
+  btn.style.background = 'var(--primary-light)';
+  // Show submit if all answered
+  const trials = currentExercise.content.trials;
+  if (Object.keys(sdAnswers).length >= trials.length) {
+    document.getElementById('sd-submit').style.display = 'block';
+  }
+}
+function submitSD() {
+  const trials = currentExercise.content.trials;
+  let correct = 0;
+  const phonemes = new Set();
+  trials.forEach((t, i) => {
+    const trial = document.getElementById(`sd-trial-${i}`);
+    phonemes.add(t.phoneme_a);
+    phonemes.add(t.phoneme_b);
+    if (sdAnswers[i] === t.answer.toLowerCase()) {
+      correct++;
+      trial.style.borderColor = '#2f855a';
+      trial.style.background = '#e8f8e8';
+    } else {
+      trial.style.borderColor = '#c53030';
+      trial.style.background = '#fde8e8';
+    }
+    trial.querySelectorAll('.sd-btn').forEach(b => b.disabled = true);
+  });
+  document.getElementById('sd-submit').style.display = 'none';
+  // Reset for next exercise
+  Object.keys(sdAnswers).forEach(k => delete sdAnswers[k]);
+  showResult(correct >= trials.length * 0.75, [...phonemes]);
+}
+
+function renderPhonemeLabel(ex) {
+  const c = ex.content;
+  const target = c.choices.find(ch => ch.correct)?.label || '';
+  const synthKey = c.sound_played.replace(/[^a-z]/gi, '').toLowerCase();
+  let html = `<div style="text-align:center; margin:0.75rem 0;">
+    <button class="play-btn" data-phoneme="${synthKey}" style="width:auto; border-radius:8px; padding:0.5rem 1.2rem; font-size:0.9rem; font-weight:600;">&#9654; Play "${c.sound_played}"</button>
+  </div>`;
+  html += '<ul class="choices interactive">';
+  c.choices.forEach((ch, i) => {
+    html += `<li data-index="${i}" data-correct="${ch.correct}" onclick="handleListenIdentifyClick(this, '${target}')">${ch.label}</li>`;
+  });
+  html += '</ul>';
+  return html;
+}
+
+function renderLetterMatch(ex) {
+  const c = ex.content;
+  const synthKey = c.phoneme.replace(/\//g, '').replace(/[^a-z]/gi, '').toLowerCase();
+  let html = `<div style="text-align:center; margin:0.75rem 0;">
+    <button class="play-btn" data-phoneme="${synthKey}" style="width:auto; border-radius:8px; padding:0.5rem 1.2rem; font-size:0.9rem; font-weight:600;">&#9654; Play ${c.phoneme}</button>
+  </div>`;
+  html += '<ul class="choices interactive">';
+  c.choices.forEach((ch, i) => {
+    html += `<li data-index="${i}" data-correct="${ch.correct}" onclick="handleListenIdentifyClick(this, '${c.phoneme}')" style="font-size:1.3rem; font-weight:700; text-align:center;">${ch.letter}</li>`;
+  });
+  html += '</ul>';
+  return html;
+}
+
+function renderOddOneOut(ex) {
+  const trials = ex.content.trials;
+  let html = '';
+  trials.forEach((t, i) => {
+    html += `<div class="exercise" style="padding:0.75rem; margin:0.5rem 0;" id="ooo-trial-${i}">
+      <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem;">Trial ${i+1}: Which is different?</div>
+      <div style="display:flex; gap:0.5rem;">`;
+    t.sounds.forEach((s, j) => {
+      const key = s.replace(/\//g, '');
+      html += `<button onclick="handleOOOClick(${i}, ${j}, '${s}')" class="ooo-btn" style="flex:1; padding:0.6rem; border-radius:8px; border:2px solid var(--border); background:var(--surface); cursor:pointer; font-weight:700; font-family:monospace; font-size:1rem;" data-sound="${s}">${s}</button>`;
+    });
+    html += `</div><div id="ooo-result-${i}" style="font-size:0.8rem; margin-top:0.3rem;"></div></div>`;
+  });
+  return html;
+}
+let oooCorrect = 0, oooTotal = 0, oooPhonemes = new Set();
+function handleOOOClick(trialIdx, choiceIdx, chosen) {
+  const trial = document.getElementById(`ooo-trial-${trialIdx}`);
+  if (trial.dataset.answered) return;
+  trial.dataset.answered = 'true';
+  oooTotal++;
+  const t = currentExercise.content.trials[trialIdx];
+  t.sounds.forEach(s => oooPhonemes.add(s));
+  const correct = chosen === t.odd;
+  if (correct) oooCorrect++;
+  const result = document.getElementById(`ooo-result-${trialIdx}`);
+  if (correct) {
+    result.innerHTML = `<span style="color:#2f855a;">Correct! ${t.reason || ''}</span>`;
+    trial.querySelectorAll('.ooo-btn').forEach(b => { if(b.dataset.sound === chosen) b.style.borderColor = '#2f855a'; });
+  } else {
+    result.innerHTML = `<span style="color:#c53030;">The odd one was ${t.odd} (${t.reason || ''})</span>`;
+    trial.querySelectorAll('.ooo-btn').forEach(b => { if(b.dataset.sound === t.odd) b.style.borderColor = '#2f855a'; });
+  }
+  if (oooTotal >= currentExercise.content.trials.length) {
+    showResult(oooCorrect >= oooTotal * 0.6, [...oooPhonemes]);
+    oooCorrect = 0; oooTotal = 0; oooPhonemes = new Set();
+  }
+}
+
+function renderVoicingPair(ex) {
+  const c = ex.content;
+  const voicedKey = c.voiced.replace(/\//g, '');
+  const voicelessKey = c.voiceless.replace(/\//g, '');
+  let html = `<div class="teaching-moment tm-info" style="margin-bottom:0.75rem;">
+    <strong>Tactile cue</strong> ${c.tactile_cue || 'Put your hand on your throat. The voiced sound makes it buzz!'}
+  </div>
+  <div style="display:flex; gap:1rem; justify-content:center; margin:0.75rem 0;">
+    <div style="text-align:center;">
+      <button class="play-btn" data-phoneme="${voicelessKey}" style="width:48px; height:48px; font-size:1.1rem;">&#9654;</button>
+      <div style="font-size:0.85rem; margin-top:0.3rem; font-weight:600;">${c.voiceless}</div>
+      <div style="font-size:0.75rem; color:var(--text-muted);">voiceless</div>
+    </div>
+    <div style="text-align:center;">
+      <button class="play-btn" data-phoneme="${voicedKey}" style="width:48px; height:48px; font-size:1.1rem;">&#9654;</button>
+      <div style="font-size:0.85rem; margin-top:0.3rem; font-weight:600;">${c.voiced}</div>
+      <div style="font-size:0.75rem; color:var(--text-muted);">voiced</div>
+    </div>
+  </div>`;
+  // Discrimination trials
+  html += renderSameDifferent({ content: { trials: c.trials.map(t => ({
+    sound_a: t.sound, phoneme_a: t.phoneme, sound_b: '', phoneme_b: t.answer,
+    answer: 'identify'
+  })) }});
+  // Actually, voicing pair trials are "which one is this?" — simpler
+  html = `<div class="teaching-moment tm-info" style="margin-bottom:0.75rem;">
+    <strong>Tactile cue</strong> ${c.tactile_cue || 'Put your hand on your throat!'}
+  </div>
+  <div style="display:flex; gap:1rem; justify-content:center; margin:0.75rem 0;">
+    <div style="text-align:center;">
+      <button class="play-btn" data-phoneme="${voicelessKey}" style="width:48px; height:48px; font-size:1.1rem;">&#9654;</button>
+      <div style="font-weight:600;">${c.voiceless} <span style="font-size:0.75rem; color:var(--text-muted);">voiceless</span></div>
+    </div>
+    <div style="text-align:center;">
+      <button class="play-btn" data-phoneme="${voicedKey}" style="width:48px; height:48px; font-size:1.1rem;">&#9654;</button>
+      <div style="font-weight:600;">${c.voiced} <span style="font-size:0.75rem; color:var(--text-muted);">voiced</span></div>
+    </div>
+  </div>`;
+  let vpCorrect = 0;
+  html += '<div id="vp-trials">';
+  c.trials.forEach((t, i) => {
+    const key = t.phoneme.replace(/\//g, '');
+    html += `<div class="exercise" style="padding:0.6rem; margin:0.4rem 0;" id="vp-trial-${i}">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <button class="play-btn" data-phoneme="${key}">&#9654;</button>
+        <span style="font-size:0.85rem;">Which one?</span>
+        <button onclick="handleVPClick(${i}, '${c.voiceless}')" class="sd-btn" style="padding:0.4rem 0.8rem; border-radius:6px; border:2px solid var(--border); background:var(--surface); cursor:pointer; font-weight:600;">${c.voiceless}</button>
+        <button onclick="handleVPClick(${i}, '${c.voiced}')" class="sd-btn" style="padding:0.4rem 0.8rem; border-radius:6px; border:2px solid var(--border); background:var(--surface); cursor:pointer; font-weight:600;">${c.voiced}</button>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  return html;
+}
+let vpScore = 0, vpDone = 0;
+function handleVPClick(idx, chosen) {
+  const trial = document.getElementById(`vp-trial-${idx}`);
+  if (trial.dataset.answered) return;
+  trial.dataset.answered = 'true';
+  vpDone++;
+  const t = currentExercise.content.trials[idx];
+  if (chosen === t.answer) {
+    vpScore++;
+    trial.style.background = '#e8f8e8';
+  } else {
+    trial.style.background = '#fde8e8';
+  }
+  trial.querySelectorAll('.sd-btn').forEach(b => b.disabled = true);
+  if (vpDone >= currentExercise.content.trials.length) {
+    const pair = currentExercise.content.pair || [];
+    showResult(vpScore >= vpDone * 0.75, pair);
+    vpScore = 0; vpDone = 0;
+  }
+}
+
+function renderCategorySort(ex) {
+  const c = ex.content;
+  let html = `<div style="display:flex; gap:0.5rem; margin:0.75rem 0;">`;
+  c.categories.forEach((cat, i) => {
+    html += `<div style="flex:1; text-align:center; padding:0.4rem; border-radius:8px; background:${i===0 ? '#e3f0ff' : '#fef3e2'}; font-weight:600; font-size:0.85rem;">${cat}</div>`;
+  });
+  html += '</div><div id="cs-items">';
+  c.items.forEach((item, i) => {
+    const key = item.phoneme.replace(/\//g, '');
+    html += `<div class="exercise" style="padding:0.6rem; margin:0.4rem 0;" id="cs-item-${i}">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <button class="play-btn" data-phoneme="${key}">&#9654;</button>
+        <span style="font-weight:600;">${item.phoneme}</span>
+        <div style="flex:1;"></div>`;
+    c.categories.forEach((cat, ci) => {
+      html += `<button onclick="handleCSClick(${i}, '${cat}')" class="sd-btn" style="padding:0.4rem 0.6rem; border-radius:6px; border:2px solid var(--border); background:var(--surface); cursor:pointer; font-size:0.8rem; font-weight:600;">${cat}</button>`;
+    });
+    html += `</div></div>`;
+  });
+  html += '</div>';
+  return html;
+}
+let csScore = 0, csDone = 0;
+function handleCSClick(idx, chosen) {
+  const el = document.getElementById(`cs-item-${idx}`);
+  if (el.dataset.answered) return;
+  el.dataset.answered = 'true';
+  csDone++;
+  const item = currentExercise.content.items[idx];
+  if (chosen === item.category) {
+    csScore++;
+    el.style.background = '#e8f8e8';
+  } else {
+    el.style.background = '#fde8e8';
+  }
+  el.querySelectorAll('.sd-btn').forEach(b => b.disabled = true);
+  if (csDone >= currentExercise.content.items.length) {
+    const phonemes = currentExercise.content.items.map(it => it.phoneme);
+    showResult(csScore >= csDone * 0.75, phonemes);
+    csScore = 0; csDone = 0;
+  }
+}
+
+function renderSoundBingo(ex) {
+  const c = ex.content;
+  const grid = c.grid;
+  const order = c.play_order;
+  let html = `<div style="text-align:center; margin:0.75rem 0;">
+    <button id="bingo-play" onclick="playBingo()" class="play-btn" style="width:auto; border-radius:8px; padding:0.5rem 1.2rem; font-size:0.9rem; font-weight:600;">&#9654; Play Next Sound</button>
+  </div>`;
+  html += `<div class="bingo-grid" style="grid-template-columns:repeat(${Math.min(grid.length, 5)}, 1fr);">`;
+  grid.forEach((p, i) => {
+    html += `<div class="bingo-cell" id="bingo-cell-${i}" data-phoneme="${p}" onclick="handleBingoClick(${i})" style="cursor:pointer;">${p}</div>`;
+  });
+  html += '</div>';
+  return html;
+}
+let bingoIdx = 0, bingoScore = 0, bingoExpected = '';
+function playBingo() {
+  const order = currentExercise.content.play_order;
+  if (bingoIdx >= order.length) return;
+  bingoExpected = order[bingoIdx];
+  const key = bingoExpected.replace(/\//g, '').replace(/[^a-z]/gi, '').toLowerCase();
+  PhonemeAudio.play(key);
+  document.getElementById('bingo-play').textContent = `&#9654; Sound ${bingoIdx + 1}/${order.length}`;
+}
+function handleBingoClick(cellIdx) {
+  const grid = currentExercise.content.grid;
+  const order = currentExercise.content.play_order;
+  if (!bingoExpected || bingoIdx >= order.length) return;
+  const cell = document.getElementById(`bingo-cell-${cellIdx}`);
+  if (grid[cellIdx] === bingoExpected) {
+    bingoScore++;
+    cell.style.background = '#e8f8e8';
+    cell.style.borderColor = '#2f855a';
+  } else {
+    cell.style.background = '#fde8e8';
+  }
+  bingoIdx++;
+  if (bingoIdx >= order.length) {
+    showResult(bingoScore >= order.length * 0.8, grid);
+    bingoIdx = 0; bingoScore = 0; bingoExpected = '';
+  } else {
+    bingoExpected = '';
+    document.getElementById('bingo-play').innerHTML = '&#9654; Play Next Sound';
+  }
+}
+
+function renderBlending(ex) {
+  const c = ex.content;
+  const words = c.words;
+  let html = '<div id="blend-words">';
+  words.forEach((w, i) => {
+    html += `<div class="exercise" style="padding:0.75rem; margin:0.5rem 0;" id="blend-${i}">
+      <div class="blend-word">`;
+    w.phonemes.forEach(p => {
+      const key = p.replace(/\//g, '').replace(/[^a-z]/gi, '').toLowerCase();
+      html += `<span class="blend-phoneme" style="cursor:pointer;" onclick="PhonemeAudio.play('${key}')">${p}</span>`;
+    });
+    html += `</div>`;
+    if (w.hint) html += `<div style="font-size:0.8rem; color:var(--text-muted); text-align:center;">Hint: ${w.hint}</div>`;
+    html += `<div style="margin-top:0.5rem; display:flex; gap:0.5rem; align-items:center;">
+      <input type="text" id="blend-input-${i}" placeholder="Type the word..." style="flex:1; padding:0.5rem; border-radius:8px; border:2px solid var(--border); font-size:1rem;">
+      <button onclick="checkBlend(${i})" style="padding:0.5rem 1rem; border-radius:8px; border:2px solid var(--primary); background:var(--primary-light); color:var(--primary); font-weight:600; cursor:pointer;">Check</button>
+    </div></div>`;
+  });
+  html += '</div>';
+  return html;
+}
+let blendScore = 0, blendDone = 0;
+function checkBlend(idx) {
+  const el = document.getElementById(`blend-${idx}`);
+  if (el.dataset.answered) return;
+  el.dataset.answered = 'true';
+  blendDone++;
+  const word = currentExercise.content.words[idx];
+  const input = document.getElementById(`blend-input-${idx}`).value.trim().toLowerCase();
+  if (input === word.word.toLowerCase()) {
+    blendScore++;
+    el.style.background = '#e8f8e8';
+  } else {
+    el.style.background = '#fde8e8';
+    el.insertAdjacentHTML('beforeend', `<div style="text-align:center; font-weight:600; color:var(--primary); margin-top:0.3rem;">The word is: ${word.word}</div>`);
+  }
+  if (blendDone >= currentExercise.content.words.length) {
+    const phonemes = currentExercise.content.words.flatMap(w => w.phonemes);
+    showResult(blendScore >= blendDone * 0.6, [...new Set(phonemes)]);
+    blendScore = 0; blendDone = 0;
+  }
+}
+
+function renderRapidMatch(ex) {
+  const c = ex.content;
+  let html = `<div style="display:flex; flex-wrap:wrap; gap:0.4rem; justify-content:center; margin:0.75rem 0;">`;
+  c.available_letters.forEach(l => {
+    html += `<div class="bingo-cell" style="font-size:1.2rem; font-weight:700; min-width:44px;">${l}</div>`;
+  });
+  html += '</div>';
+  html += '<div id="rm-trials">';
+  c.trials.forEach((t, i) => {
+    const key = t.phoneme.replace(/\//g, '').replace(/[^a-z]/gi, '').toLowerCase();
+    html += `<div class="exercise" style="padding:0.6rem; margin:0.4rem 0;" id="rm-trial-${i}">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <button class="play-btn" data-phoneme="${key}">&#9654;</button>
+        <span style="font-size:0.85rem;">Which letter?</span>
+        <input type="text" maxlength="2" id="rm-input-${i}" style="width:3rem; padding:0.4rem; text-align:center; border-radius:6px; border:2px solid var(--border); font-size:1.1rem; font-weight:700;" onkeyup="checkRM(${i})">
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  return html;
+}
+let rmScore = 0, rmDone = 0;
+function checkRM(idx) {
+  const el = document.getElementById(`rm-trial-${idx}`);
+  if (el.dataset.answered) return;
+  const input = document.getElementById(`rm-input-${idx}`);
+  const val = input.value.trim().toLowerCase();
+  if (!val) return;
+  el.dataset.answered = 'true';
+  rmDone++;
+  const t = currentExercise.content.trials[idx];
+  if (val === t.correct_letter.toLowerCase()) {
+    rmScore++;
+    el.style.background = '#e8f8e8';
+  } else {
+    el.style.background = '#fde8e8';
+    el.insertAdjacentHTML('beforeend', `<span style="margin-left:0.5rem; font-weight:600; color:var(--primary);">${t.correct_letter}</span>`);
+  }
+  if (rmDone >= currentExercise.content.trials.length) {
+    showResult(rmScore >= rmDone * 0.75, currentExercise.content.trials.map(t => t.phoneme));
+    rmScore = 0; rmDone = 0;
+  }
+}
+
+function renderGeneric(ex) {
+  return `<div style="padding:0.75rem; background:var(--bg); border-radius:8px; font-size:0.85rem; margin:0.75rem 0;">
+    <pre style="white-space:pre-wrap; word-break:break-word;">${JSON.stringify(ex.content, null, 2)}</pre>
+    <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+      <button onclick="showResult(true, currentTarget.target_phonemes)" style="flex:1; padding:0.5rem; border-radius:8px; border:2px solid #2f855a; background:#e8f8e8; cursor:pointer; font-weight:600;">I got it right</button>
+      <button onclick="showResult(false, currentTarget.target_phonemes)" style="flex:1; padding:0.5rem; border-radius:8px; border:2px solid #c53030; background:#fde8e8; cursor:pointer; font-weight:600;">I got it wrong</button>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// Phoneme Audio Synthesizer using Web Audio API
+// ============================================================
+const PhonemeAudio = (() => {
+  let ctx = null;
+  const getCtx = () => {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  };
+
+  // Create noise buffer (for fricatives)
+  const makeNoise = (ac, duration) => {
+    const len = ac.sampleRate * duration;
+    const buf = ac.createBuffer(1, len, ac.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+    return buf;
+  };
+
+  // Voiced component: low-frequency buzz (vocal folds)
+  const addVoicing = (ac, dest, startTime, duration, freq = 120) => {
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, startTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+    osc.connect(gain).connect(dest);
+    osc.start(startTime);
+    osc.stop(startTime + duration);
+  };
+
+  // Nasal: voiced hum with resonance
+  const playNasal = (ac, dest, startTime, duration, freq) => {
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    const filter = ac.createBiquadFilter();
+    osc.type = 'sawtooth';
+    osc.frequency.value = freq;
+    filter.type = 'lowpass';
+    filter.frequency.value = 400;
+    filter.Q.value = 8;
+    gain.gain.setValueAtTime(0.25, startTime);
+    gain.gain.setValueAtTime(0.25, startTime + duration * 0.8);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+    osc.connect(filter).connect(gain).connect(dest);
+    osc.start(startTime);
+    osc.stop(startTime + duration);
+  };
+
+  // Fricative: filtered noise
+  const playFricative = (ac, dest, startTime, duration, lowCut, hiCut, volume = 0.15) => {
+    const src = ac.createBufferSource();
+    src.buffer = makeNoise(ac, duration);
+    const bp = ac.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = (lowCut + hiCut) / 2;
+    bp.Q.value = 1.5;
+    const gain = ac.createGain();
+    gain.gain.setValueAtTime(volume, startTime);
+    gain.gain.setValueAtTime(volume, startTime + duration * 0.8);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+    src.connect(bp).connect(gain).connect(dest);
+    src.start(startTime);
+    src.stop(startTime + duration);
+  };
+
+  // Stop: short noise burst
+  const playStop = (ac, dest, startTime, voiced, freq) => {
+    const duration = 0.08;
+    const src = ac.createBufferSource();
+    src.buffer = makeNoise(ac, duration);
+    const bp = ac.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = freq;
+    bp.Q.value = 2;
+    const gain = ac.createGain();
+    gain.gain.setValueAtTime(0, startTime);
+    gain.gain.linearRampToValueAtTime(0.4, startTime + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+    src.connect(bp).connect(gain).connect(dest);
+    src.start(startTime);
+    src.stop(startTime + duration);
+    if (voiced) addVoicing(ac, dest, startTime, 0.12, 120);
+  };
+
+  // Liquid / approximant
+  const playLiquid = (ac, dest, startTime, duration, formant1, formant2) => {
+    const osc1 = ac.createOscillator();
+    const osc2 = ac.createOscillator();
+    const gain = ac.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.value = formant1;
+    osc2.type = 'sine';
+    osc2.frequency.value = formant2;
+    gain.gain.setValueAtTime(0.18, startTime);
+    gain.gain.setValueAtTime(0.18, startTime + duration * 0.7);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+    osc1.connect(gain);
+    osc2.connect(gain);
+    gain.connect(dest);
+    osc1.start(startTime);
+    osc2.start(startTime);
+    osc1.stop(startTime + duration);
+    osc2.stop(startTime + duration);
+  };
+
+  // Phoneme recipes
+  const recipes = {
+    // Stage 1 — Continuous
+    m:  (ac, d, t) => playNasal(ac, d, t, 0.5, 120),
+    n:  (ac, d, t) => playNasal(ac, d, t, 0.5, 180),
+    s:  (ac, d, t) => playFricative(ac, d, t, 0.5, 4000, 8000, 0.12),
+    f:  (ac, d, t) => playFricative(ac, d, t, 0.5, 1500, 5000, 0.08),
+    h:  (ac, d, t) => playFricative(ac, d, t, 0.4, 500, 3000, 0.06),
+    // Stage 2 — Stops
+    p:  (ac, d, t) => playStop(ac, d, t, false, 800),
+    b:  (ac, d, t) => playStop(ac, d, t, true, 800),
+    t:  (ac, d, t) => playStop(ac, d, t, false, 3000),
+    d:  (ac, d, t) => playStop(ac, d, t, true, 3000),
+    k:  (ac, d, t) => playStop(ac, d, t, false, 1500),
+    g:  (ac, d, t) => playStop(ac, d, t, true, 1500),
+    // Stage 3 — Fricatives & Affricates
+    v:  (ac, d, t) => { playFricative(ac, d, t, 0.5, 1500, 5000, 0.08); addVoicing(ac, d, t, 0.5); },
+    z:  (ac, d, t) => { playFricative(ac, d, t, 0.5, 4000, 8000, 0.1); addVoicing(ac, d, t, 0.5); },
+    sh: (ac, d, t) => playFricative(ac, d, t, 0.5, 2000, 6000, 0.1),
+    ch: (ac, d, t) => { playStop(ac, d, t, false, 2500); setTimeout(() => { const ac2 = getCtx(); playFricative(ac2, ac2.destination, ac2.currentTime, 0.2, 2000, 6000, 0.1); }, 80); },
+    th: (ac, d, t) => playFricative(ac, d, t, 0.5, 1000, 4000, 0.05),
+    // Stage 4 — Liquids
+    r:  (ac, d, t) => playLiquid(ac, d, t, 0.5, 300, 1100),
+    l:  (ac, d, t) => playLiquid(ac, d, t, 0.5, 350, 900),
+    y:  (ac, d, t) => playLiquid(ac, d, t, 0.4, 280, 2300),
+  };
+
+  const play = (phoneme) => {
+    const ac = getCtx();
+    const recipe = recipes[phoneme];
+    if (recipe) recipe(ac, ac.destination, ac.currentTime);
+  };
+
+  // Play with a delay (returns promise that resolves when done)
+  const playDelayed = (phoneme, delayMs = 0) => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        play(phoneme);
+        // Most sounds are 0.5s; stops are shorter
+        const dur = ['p','b','t','d','k','g','ch'].includes(phoneme) ? 200 : 550;
+        setTimeout(resolve, dur);
+      }, delayMs);
+    });
+  };
+
+  return { play, playDelayed };
+})();
+
+// ============================================================
+// Wire up all play buttons
+// ============================================================
+document.querySelectorAll('.play-btn[data-phoneme]').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const phoneme = btn.dataset.phoneme;
+    PhonemeAudio.play(phoneme);
+    btn.classList.add('playing');
+    setTimeout(() => btn.classList.remove('playing'), 600);
+  });
+});
+
+// ============================================================
+// Exercise 1.1 — Interactive Listen & Identify
+// ============================================================
+(() => {
+  const list = document.getElementById('ex-1-1-choices');
+  if (!list) return;
+  const correctIdx = parseInt(list.dataset.correct);
+  const feedback = document.getElementById('ex-1-1-feedback');
+  const tmCorrect = document.getElementById('ex-1-1-tm-correct');
+  const tmIncorrect = document.getElementById('ex-1-1-tm-incorrect');
+
+  list.querySelectorAll('li').forEach(li => {
+    li.addEventListener('click', () => {
+      if (list.dataset.answered === 'true') return;
+      // Don't count play button clicks as answers
+      const idx = parseInt(li.dataset.index);
+      list.dataset.answered = 'true';
+
+      if (idx === correctIdx) {
+        li.classList.add('selected-correct');
+        feedback.textContent = 'Correct!';
+        feedback.className = 'feedback-banner show correct';
+        tmCorrect.style.display = 'block';
+      } else {
+        li.classList.add('selected-wrong');
+        // Reveal correct answer
+        list.querySelector(`li[data-index="${correctIdx}"]`).classList.add('reveal-correct');
+        feedback.textContent = 'Not quite — the correct answer is highlighted.';
+        feedback.className = 'feedback-banner show wrong';
+        tmIncorrect.style.display = 'block';
+      }
+    });
+  });
+})();
+
+// ============================================================
+// Exercise 1.3 — Interactive Listen & Tap
+// ============================================================
+(() => {
+  const playBtn = document.getElementById('ex-1-3-play');
+  const tapBtn = document.getElementById('ex-1-3-tap');
+  const seqDiv = document.getElementById('ex-1-3-sequence');
+  const feedback = document.getElementById('ex-1-3-feedback');
+  if (!playBtn || !tapBtn) return;
+
+  const sequence = [
+    { phoneme: 'm', target: false },
+    { phoneme: 's', target: true },
+    { phoneme: 'f', target: false },
+    { phoneme: 's', target: true },
+    { phoneme: 'n', target: false },
+  ];
+
+  let playing = false;
+  let currentIdx = -1;
+  let taps = 0;
+  let correctTaps = 0;
+  let falseTaps = 0;
+
+  // Build visual indicators
+  seqDiv.innerHTML = '';
+  sequence.forEach((s, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'bingo-cell';
+    cell.style.opacity = '0.3';
+    cell.style.transition = 'all 0.2s';
+    cell.textContent = '?';
+    cell.id = `ex-1-3-cell-${i}`;
+    seqDiv.appendChild(cell);
+  });
+
+  playBtn.addEventListener('click', async () => {
+    if (playing) return;
+    playing = true;
+    taps = 0;
+    correctTaps = 0;
+    falseTaps = 0;
+    feedback.className = 'feedback-banner';
+    playBtn.style.opacity = '0.5';
+    tapBtn.disabled = false;
+    tapBtn.style.borderColor = 'var(--accent)';
+    tapBtn.style.background = 'var(--accent-light)';
+    tapBtn.style.color = 'var(--accent)';
+
+    for (let i = 0; i < sequence.length; i++) {
+      currentIdx = i;
+      const cell = document.getElementById(`ex-1-3-cell-${i}`);
+      cell.style.opacity = '1';
+      cell.style.background = 'var(--primary-light)';
+      cell.style.borderColor = 'var(--primary)';
+      cell.style.border = '2px solid var(--primary)';
+
+      await PhonemeAudio.playDelayed(sequence[i].phoneme, 100);
+      await new Promise(r => setTimeout(r, 400)); // pause between sounds
+
+      cell.style.background = '';
+      cell.style.border = '';
+      cell.style.opacity = '0.6';
+      cell.textContent = sequence[i].phoneme;
+    }
+
+    currentIdx = -1;
+    playing = false;
+    tapBtn.disabled = true;
+    tapBtn.style.borderColor = 'var(--border)';
+    tapBtn.style.background = 'var(--bg)';
+    tapBtn.style.color = 'var(--text-muted)';
+    playBtn.style.opacity = '1';
+
+    // Show results
+    const expected = sequence.filter(s => s.target).length;
+    if (correctTaps === expected && falseTaps === 0) {
+      feedback.textContent = `Perfect! You tapped ${correctTaps} times — exactly right!`;
+      feedback.className = 'feedback-banner show correct';
+    } else if (correctTaps >= expected - 1 && falseTaps <= 1) {
+      feedback.textContent = `Good effort! You got ${correctTaps}/${expected} targets. Try again to get them all!`;
+      feedback.className = 'feedback-banner show correct';
+    } else {
+      feedback.textContent = `You tapped ${taps} times (${correctTaps} correct, ${falseTaps} false). The /s/ sound is the high-pitched hiss — listen for it!`;
+      feedback.className = 'feedback-banner show wrong';
+    }
+  });
+
+  tapBtn.addEventListener('click', () => {
+    if (!playing || currentIdx < 0) return;
+    taps++;
+    tapBtn.classList.add('playing');
+    setTimeout(() => tapBtn.classList.remove('playing'), 200);
+
+    if (sequence[currentIdx].target) {
+      correctTaps++;
+      const cell = document.getElementById(`ex-1-3-cell-${currentIdx}`);
+      cell.style.background = '#e8f8e8';
+      cell.textContent = '/s/ ✓';
+    } else {
+      falseTaps++;
+      const cell = document.getElementById(`ex-1-3-cell-${currentIdx}`);
+      cell.style.background = '#fde8e8';
+    }
+  });
+})();
+
+// ============================================================
+// Make all bingo grids playable
+// ============================================================
+document.querySelectorAll('.bingo-cell').forEach(cell => {
+  // Skip cells that are part of exercise 1.3 (they have IDs)
+  if (cell.id) return;
+  const text = cell.textContent.trim().replace(/\//g, '');
+  // Map phoneme labels to synth keys
+  const map = { 'm':'m','n':'n','s':'s','f':'f','h':'h','p':'p','b':'b','t':'t','d':'d','k':'k','g':'g' };
+  if (map[text]) {
+    cell.style.cursor = 'pointer';
+    cell.addEventListener('click', () => {
+      PhonemeAudio.play(map[text]);
+      cell.style.background = 'var(--primary-light)';
+      setTimeout(() => cell.style.background = '', 400);
+    });
+  }
+});
+
+// ============================================================
+// Make blend phoneme chips playable
+// ============================================================
+document.querySelectorAll('.blend-phoneme').forEach(chip => {
+  const text = chip.textContent.trim().replace(/\//g, '');
+  const map = { 'm':'m','n':'n','s':'s','f':'f','h':'h','p':'p','b':'b','t':'t','d':'d','k':'k','g':'g','r':'r','l':'l' };
+  if (map[text]) {
+    chip.style.cursor = 'pointer';
+    chip.addEventListener('click', () => {
+      PhonemeAudio.play(map[text]);
+      chip.style.background = 'var(--primary-light)';
+      setTimeout(() => chip.style.background = '', 400);
+    });
+  }
+});
+</script>
+
+</body>
+</html>

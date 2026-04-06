@@ -1,0 +1,649 @@
+{
+  "name": "Calma AI Phoneme Curriculum",
+  "version": "0.1.0",
+  "progression": {
+    "discrimination_pass": 0.80,
+    "letter_match_pass": 0.75,
+    "blending_pass": 0.60,
+    "retention_pass": 0.70,
+    "spaced_review_ratio": 0.20,
+    "remediation_trigger": 3,
+    "retention_check_hours": 24
+  },
+  "exercise_types": [
+    {
+      "id": "listen_identify",
+      "name": "Listen & Identify",
+      "category": "listen",
+      "description": "Play three sounds, learner identifies the target",
+      "min_choices": 3,
+      "max_choices": 4
+    },
+    {
+      "id": "same_different",
+      "name": "Same or Different",
+      "category": "listen",
+      "description": "Play two sounds, learner says if they are the same or different",
+      "trials": 4
+    },
+    {
+      "id": "listen_tap",
+      "name": "Listen & Tap",
+      "category": "listen",
+      "description": "Play a sequence of sounds, learner taps when they hear the target",
+      "sequence_length": 5
+    },
+    {
+      "id": "odd_one_out",
+      "name": "Odd One Out",
+      "category": "listen",
+      "description": "Play three sounds, learner identifies which is different",
+      "group_size": 3
+    },
+    {
+      "id": "voicing_pair",
+      "name": "Voicing Pair",
+      "category": "listen",
+      "description": "Tactile exercise — feel throat buzz to distinguish voiced/voiceless pairs",
+      "trials": 6
+    },
+    {
+      "id": "category_sort",
+      "name": "Category Sort",
+      "category": "sort",
+      "description": "Sort sounds into categories (e.g., continuous vs. stop, or by place of articulation)",
+      "min_items": 4,
+      "max_items": 8
+    },
+    {
+      "id": "phoneme_label",
+      "name": "Phoneme Label",
+      "category": "label",
+      "description": "Hear a sound, select the correct phoneme label from choices",
+      "min_choices": 3,
+      "max_choices": 5
+    },
+    {
+      "id": "letter_match",
+      "name": "Letter Match",
+      "category": "letter",
+      "description": "Hear a sound, select the correct letter(s) from choices",
+      "min_choices": 3,
+      "max_choices": 6
+    },
+    {
+      "id": "rapid_match",
+      "name": "Rapid Match",
+      "category": "letter",
+      "description": "Quick-fire sound-to-letter matching with all sounds in a stage",
+      "trials": 12
+    },
+    {
+      "id": "sound_bingo",
+      "name": "Sound Bingo",
+      "category": "review",
+      "description": "Grid of phoneme labels; audio plays, learner taps the matching cell",
+      "pass_ratio": 0.80
+    },
+    {
+      "id": "say_record",
+      "name": "Say & Record",
+      "category": "repeat",
+      "description": "App models the sound, learner repeats aloud and records",
+      "min_duration_seconds": 2
+    },
+    {
+      "id": "cvc_blend",
+      "name": "CVC Blending",
+      "category": "blend",
+      "description": "Three phonemes presented separately, learner blends into a word",
+      "phoneme_count": 3
+    },
+    {
+      "id": "segmenting",
+      "name": "Segmenting",
+      "category": "blend",
+      "description": "Word presented, learner identifies the individual phonemes",
+      "phoneme_count": 3
+    },
+    {
+      "id": "cluster_blend",
+      "name": "Cluster Blending",
+      "category": "blend",
+      "description": "CCVC or CVCC words — blending with consonant clusters",
+      "phoneme_count": 4
+    },
+    {
+      "id": "sentence_read",
+      "name": "Sentence Reading",
+      "category": "blend",
+      "description": "Read a decodable sentence using only mastered sounds"
+    },
+    {
+      "id": "minimal_pairs",
+      "name": "Minimal Pairs",
+      "category": "listen",
+      "description": "Two words that differ by one sound — same or different?",
+      "trials": 4
+    },
+    {
+      "id": "magic_e",
+      "name": "Magic-e Transform",
+      "category": "label",
+      "description": "Show short-vowel word, add silent e, observe vowel change"
+    }
+  ],
+  "stages": [
+    {
+      "id": 1,
+      "name": "Easy, Continuous Sounds",
+      "sessions": "1–5",
+      "color": "#4a7c6f",
+      "description": "Continuous sounds that are easy to hear and sustain",
+      "sounds": [
+        {
+          "phoneme": "/m/",
+          "ipa": "m",
+          "letter": "m",
+          "example": "mmm",
+          "keyword": "mum",
+          "articulation": "Lips together, continuous hum through the nose",
+          "type": "nasal",
+          "voiced": true,
+          "continuous": true,
+          "place": "bilabial"
+        },
+        {
+          "phoneme": "/n/",
+          "ipa": "n",
+          "letter": "n",
+          "example": "nnn",
+          "keyword": "sun",
+          "articulation": "Tongue behind upper teeth, continuous hum through the nose",
+          "type": "nasal",
+          "voiced": true,
+          "continuous": true,
+          "place": "alveolar"
+        },
+        {
+          "phoneme": "/s/",
+          "ipa": "s",
+          "letter": "s",
+          "example": "sss",
+          "keyword": "sun",
+          "articulation": "Tongue behind teeth, air hisses through a narrow gap",
+          "type": "fricative",
+          "voiced": false,
+          "continuous": true,
+          "place": "alveolar"
+        },
+        {
+          "phoneme": "/f/",
+          "ipa": "f",
+          "letter": "f",
+          "example": "fff",
+          "keyword": "fan",
+          "articulation": "Upper teeth on lower lip, air flows through",
+          "type": "fricative",
+          "voiced": false,
+          "continuous": true,
+          "place": "labiodental"
+        },
+        {
+          "phoneme": "/h/",
+          "ipa": "h",
+          "letter": "h",
+          "example": "hhh",
+          "keyword": "hat",
+          "articulation": "Open mouth, exhale gently",
+          "type": "fricative",
+          "voiced": false,
+          "continuous": true,
+          "place": "glottal"
+        }
+      ],
+      "exercise_sequence": [
+        "listen_identify",
+        "say_record",
+        "listen_tap",
+        "same_different",
+        "phoneme_label",
+        "letter_match",
+        "sound_bingo",
+        "say_record"
+      ],
+      "confusion_pairs": [
+        ["/s/", "/f/"],
+        ["/m/", "/n/"]
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Stops (Simple Plosives)",
+      "sessions": "6–10",
+      "color": "#5b7fa6",
+      "description": "Short burst sounds where air is briefly blocked then released",
+      "sounds": [
+        {
+          "phoneme": "/p/",
+          "ipa": "p",
+          "letter": "p",
+          "example": "puh",
+          "keyword": "pot",
+          "articulation": "Lips pop apart, short burst of air",
+          "type": "stop",
+          "voiced": false,
+          "continuous": false,
+          "place": "bilabial"
+        },
+        {
+          "phoneme": "/b/",
+          "ipa": "b",
+          "letter": "b",
+          "example": "buh",
+          "keyword": "bat",
+          "articulation": "Lips pop apart with voice, throat buzzes",
+          "type": "stop",
+          "voiced": true,
+          "continuous": false,
+          "place": "bilabial"
+        },
+        {
+          "phoneme": "/t/",
+          "ipa": "t",
+          "letter": "t",
+          "example": "tuh",
+          "keyword": "top",
+          "articulation": "Tongue taps behind upper teeth, quick burst",
+          "type": "stop",
+          "voiced": false,
+          "continuous": false,
+          "place": "alveolar"
+        },
+        {
+          "phoneme": "/d/",
+          "ipa": "d",
+          "letter": "d",
+          "example": "duh",
+          "keyword": "dog",
+          "articulation": "Tongue taps behind upper teeth with voice",
+          "type": "stop",
+          "voiced": true,
+          "continuous": false,
+          "place": "alveolar"
+        },
+        {
+          "phoneme": "/k/",
+          "ipa": "k",
+          "letter": "k",
+          "example": "kuh",
+          "keyword": "cat",
+          "articulation": "Back of tongue hits the roof of the mouth",
+          "type": "stop",
+          "voiced": false,
+          "continuous": false,
+          "place": "velar"
+        },
+        {
+          "phoneme": "/g/",
+          "ipa": "ɡ",
+          "letter": "g",
+          "example": "guh",
+          "keyword": "go",
+          "articulation": "Back of tongue hits the roof of the mouth with voice",
+          "type": "stop",
+          "voiced": true,
+          "continuous": false,
+          "place": "velar"
+        }
+      ],
+      "exercise_sequence": [
+        "category_sort",
+        "voicing_pair",
+        "voicing_pair",
+        "voicing_pair",
+        "odd_one_out",
+        "rapid_match",
+        "sound_bingo"
+      ],
+      "voicing_pairs": [
+        ["/p/", "/b/"],
+        ["/t/", "/d/"],
+        ["/k/", "/g/"]
+      ],
+      "confusion_pairs": [
+        ["/p/", "/b/"],
+        ["/t/", "/d/"],
+        ["/k/", "/g/"],
+        ["/t/", "/k/"]
+      ],
+      "new_concepts": ["continuous_vs_stop", "voicing"]
+    },
+    {
+      "id": 3,
+      "name": "Fricatives & Affricates",
+      "sessions": "11–16",
+      "color": "#8b6aab",
+      "description": "Sounds where air is squeezed through a narrow gap, plus stop-fricative combinations",
+      "sounds": [
+        {
+          "phoneme": "/v/",
+          "ipa": "v",
+          "letter": "v",
+          "example": "vvv",
+          "keyword": "van",
+          "articulation": "Upper teeth on lower lip with voice — the buzzy version of /f/",
+          "type": "fricative",
+          "voiced": true,
+          "continuous": true,
+          "place": "labiodental",
+          "builds_on": "/f/"
+        },
+        {
+          "phoneme": "/z/",
+          "ipa": "z",
+          "letter": "z",
+          "example": "zzz",
+          "keyword": "zip",
+          "articulation": "Tongue behind teeth, voiced hissing — the buzzy version of /s/",
+          "type": "fricative",
+          "voiced": true,
+          "continuous": true,
+          "place": "alveolar",
+          "builds_on": "/s/"
+        },
+        {
+          "phoneme": "/ʃ/",
+          "ipa": "ʃ",
+          "letter": "sh",
+          "digraph": true,
+          "example": "shh",
+          "keyword": "ship",
+          "articulation": "Tongue raised, lips pushed slightly forward, wide hissing",
+          "type": "fricative",
+          "voiced": false,
+          "continuous": true,
+          "place": "postalveolar"
+        },
+        {
+          "phoneme": "/tʃ/",
+          "ipa": "tʃ",
+          "letter": "ch",
+          "digraph": true,
+          "example": "ch",
+          "keyword": "chip",
+          "articulation": "Starts like /t/ (stop) then slides into /ʃ/ — a quick stop-then-slide",
+          "type": "affricate",
+          "voiced": false,
+          "continuous": false,
+          "place": "postalveolar"
+        },
+        {
+          "phoneme": "/θ/",
+          "ipa": "θ",
+          "letter": "th",
+          "digraph": true,
+          "example": "th",
+          "keyword": "think",
+          "articulation": "Tongue tip between the teeth, blow air over it",
+          "type": "fricative",
+          "voiced": false,
+          "continuous": true,
+          "place": "dental",
+          "note": "Hardest fricative — allow extra repetition, don't gate on perfection"
+        },
+        {
+          "phoneme": "/ð/",
+          "ipa": "ð",
+          "letter": "th",
+          "digraph": true,
+          "example": "th",
+          "keyword": "this",
+          "articulation": "Same as /θ/ but with voice — tongue between teeth, throat buzzes",
+          "type": "fricative",
+          "voiced": true,
+          "continuous": true,
+          "place": "dental",
+          "note": "Shares spelling 'th' with /θ/ — context determines which"
+        }
+      ],
+      "exercise_sequence": [
+        "voicing_pair",
+        "voicing_pair",
+        "listen_identify",
+        "same_different",
+        "listen_identify",
+        "same_different",
+        "letter_match",
+        "sound_bingo"
+      ],
+      "voicing_pairs": [
+        ["/f/", "/v/"],
+        ["/s/", "/z/"],
+        ["/θ/", "/ð/"]
+      ],
+      "confusion_pairs": [
+        ["/f/", "/v/"],
+        ["/s/", "/z/"],
+        ["/s/", "/ʃ/"],
+        ["/ʃ/", "/tʃ/"],
+        ["/θ/", "/ð/"],
+        ["/θ/", "/f/"]
+      ],
+      "new_concepts": ["digraphs"]
+    },
+    {
+      "id": 4,
+      "name": "Liquids & Harder Consonants",
+      "sessions": "17–20",
+      "color": "#c47a5a",
+      "description": "The trickiest consonant sounds — liquids and glides that take patience",
+      "sounds": [
+        {
+          "phoneme": "/r/",
+          "ipa": "r",
+          "letter": "r",
+          "example": "rrr",
+          "keyword": "run",
+          "articulation": "Pull tongue slightly back and up, let sound vibrate — like a quiet engine",
+          "type": "liquid",
+          "voiced": true,
+          "continuous": true,
+          "place": "postalveolar",
+          "note": "May take many sessions. Track attempts, offer encouragement, don't gate."
+        },
+        {
+          "phoneme": "/l/",
+          "ipa": "l",
+          "letter": "l",
+          "example": "lll",
+          "keyword": "leg",
+          "articulation": "Tongue tip touches the bumpy ridge behind top teeth, sound flows around the sides",
+          "type": "liquid",
+          "voiced": true,
+          "continuous": true,
+          "place": "alveolar"
+        },
+        {
+          "phoneme": "/j/",
+          "ipa": "j",
+          "letter": "y",
+          "example": "yuh",
+          "keyword": "yes",
+          "articulation": "Start saying 'eee' then open your mouth — it glides into the next sound",
+          "type": "glide",
+          "voiced": true,
+          "continuous": true,
+          "place": "palatal"
+        }
+      ],
+      "exercise_sequence": [
+        "listen_identify",
+        "say_record",
+        "same_different",
+        "listen_identify",
+        "say_record",
+        "listen_identify",
+        "category_sort",
+        "sound_bingo"
+      ],
+      "confusion_pairs": [
+        ["/r/", "/l/"],
+        ["/r/", "/w/"],
+        ["/l/", "/n/"],
+        ["/j/", "/l/"]
+      ],
+      "capstone": "grand_sort"
+    },
+    {
+      "id": 5,
+      "name": "Vowels",
+      "sessions": "21–25",
+      "color": "#b5894e",
+      "description": "Vowel sounds — open mouth, free-flowing air. Short vowels first, then long vowels with magic-e.",
+      "note": "Best introduced once consonant discrimination is underway, because most reading errors come from consonant confusions.",
+      "sounds": [
+        {
+          "phoneme": "/æ/",
+          "ipa": "æ",
+          "letter": "a",
+          "example": "cat",
+          "keyword": "cat",
+          "articulation": "Mouth open, tongue low and forward",
+          "type": "short_vowel",
+          "voiced": true,
+          "continuous": true,
+          "long_form": "/eɪ/",
+          "long_keyword": "cake"
+        },
+        {
+          "phoneme": "/ɛ/",
+          "ipa": "ɛ",
+          "letter": "e",
+          "example": "bed",
+          "keyword": "bed",
+          "articulation": "Mouth slightly open, tongue mid-front",
+          "type": "short_vowel",
+          "voiced": true,
+          "continuous": true,
+          "long_form": "/iː/",
+          "long_keyword": "see"
+        },
+        {
+          "phoneme": "/ɪ/",
+          "ipa": "ɪ",
+          "letter": "i",
+          "example": "sit",
+          "keyword": "sit",
+          "articulation": "Mouth slightly open, tongue high and forward",
+          "type": "short_vowel",
+          "voiced": true,
+          "continuous": true,
+          "long_form": "/aɪ/",
+          "long_keyword": "bite"
+        },
+        {
+          "phoneme": "/ɒ/",
+          "ipa": "ɒ",
+          "letter": "o",
+          "example": "hot",
+          "keyword": "hot",
+          "articulation": "Mouth round and open, tongue low and back",
+          "type": "short_vowel",
+          "voiced": true,
+          "continuous": true,
+          "long_form": "/oʊ/",
+          "long_keyword": "hope"
+        },
+        {
+          "phoneme": "/ʌ/",
+          "ipa": "ʌ",
+          "letter": "u",
+          "example": "cup",
+          "keyword": "cup",
+          "articulation": "Mouth slightly open, tongue mid-central, relaxed",
+          "type": "short_vowel",
+          "voiced": true,
+          "continuous": true,
+          "long_form": "/juː/",
+          "long_keyword": "cute"
+        }
+      ],
+      "exercise_sequence": [
+        "listen_identify",
+        "same_different",
+        "minimal_pairs",
+        "letter_match",
+        "magic_e"
+      ],
+      "confusion_pairs": [
+        ["/æ/", "/ʌ/"],
+        ["/ɪ/", "/ɛ/"],
+        ["/ɒ/", "/ʌ/"]
+      ],
+      "magic_e_pairs": [
+        {"short_word": "cap", "long_word": "cape", "short_vowel": "/æ/", "long_vowel": "/eɪ/"},
+        {"short_word": "bit", "long_word": "bite", "short_vowel": "/ɪ/", "long_vowel": "/aɪ/"},
+        {"short_word": "hop", "long_word": "hope", "short_vowel": "/ɒ/", "long_vowel": "/oʊ/"},
+        {"short_word": "cut", "long_word": "cute", "short_vowel": "/ʌ/", "long_vowel": "/juː/"}
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Blending — Words & Sentences",
+      "sessions": "26+",
+      "color": "#5a9a7a",
+      "description": "Combine mastered phonemes into syllables, words, and decodable sentences",
+      "exercise_sequence": [
+        "cvc_blend",
+        "segmenting",
+        "cluster_blend",
+        "sentence_read"
+      ],
+      "cvc_words": [
+        {"word": "mat", "phonemes": ["/m/", "/æ/", "/t/"]},
+        {"word": "sat", "phonemes": ["/s/", "/æ/", "/t/"]},
+        {"word": "sit", "phonemes": ["/s/", "/ɪ/", "/t/"]},
+        {"word": "pin", "phonemes": ["/p/", "/ɪ/", "/n/"]},
+        {"word": "hot", "phonemes": ["/h/", "/ɒ/", "/t/"]},
+        {"word": "cup", "phonemes": ["/k/", "/ʌ/", "/p/"]},
+        {"word": "bed", "phonemes": ["/b/", "/ɛ/", "/d/"]},
+        {"word": "dog", "phonemes": ["/d/", "/ɒ/", "/g/"]},
+        {"word": "fun", "phonemes": ["/f/", "/ʌ/", "/n/"]},
+        {"word": "ten", "phonemes": ["/t/", "/ɛ/", "/n/"]},
+        {"word": "map", "phonemes": ["/m/", "/æ/", "/p/"]},
+        {"word": "big", "phonemes": ["/b/", "/ɪ/", "/g/"]},
+        {"word": "nap", "phonemes": ["/n/", "/æ/", "/p/"]},
+        {"word": "hug", "phonemes": ["/h/", "/ʌ/", "/g/"]},
+        {"word": "kit", "phonemes": ["/k/", "/ɪ/", "/t/"]},
+        {"word": "sob", "phonemes": ["/s/", "/ɒ/", "/b/"]},
+        {"word": "mud", "phonemes": ["/m/", "/ʌ/", "/d/"]},
+        {"word": "get", "phonemes": ["/g/", "/ɛ/", "/t/"]}
+      ],
+      "cluster_words": [
+        {"word": "stop", "phonemes": ["/s/", "/t/", "/ɒ/", "/p/"]},
+        {"word": "fast", "phonemes": ["/f/", "/æ/", "/s/", "/t/"]},
+        {"word": "help", "phonemes": ["/h/", "/ɛ/", "/l/", "/p/"]},
+        {"word": "must", "phonemes": ["/m/", "/ʌ/", "/s/", "/t/"]},
+        {"word": "kept", "phonemes": ["/k/", "/ɛ/", "/p/", "/t/"]},
+        {"word": "dust", "phonemes": ["/d/", "/ʌ/", "/s/", "/t/"]}
+      ],
+      "decodable_sentences": [
+        "The fat cat sat on a mat.",
+        "He got a big red cup.",
+        "Sam has a fun pet.",
+        "The dog sat in the sun.",
+        "A bug hid in a mug.",
+        "Get the hat and the bag."
+      ]
+    }
+  ],
+  "articulatory_families": {
+    "lip_sounds": {"label": "Lip sounds", "phonemes": ["/m/", "/p/", "/b/", "/f/", "/v/"]},
+    "tongue_tip": {"label": "Tongue-tip sounds", "phonemes": ["/n/", "/t/", "/d/", "/s/", "/z/", "/l/", "/r/"]},
+    "tongue_back": {"label": "Tongue-back sounds", "phonemes": ["/k/", "/g/"]},
+    "throat": {"label": "Throat sounds", "phonemes": ["/h/"]},
+    "special_combos": {"label": "Special combos", "phonemes": ["/ʃ/", "/tʃ/", "/θ/", "/ð/"]},
+    "glides": {"label": "Glides", "phonemes": ["/j/"]}
+  }
+}

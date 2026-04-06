@@ -11,56 +11,19 @@ A RAG (Retrieval-Augmented Generation) tool that lets you ask questions about PD
 
 ## Setup
 
-### Python environment
-
-First, make sure you have Python 3.8+ installed. You can check with:
-
-```bash
-python --version
-```
-
-Create and activate a virtual environment:
-
-**macOS/Linux:**
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
-**Windows (Command Prompt):**
-
-```cmd
-python -m venv venv
-venv\Scripts\activate.bat
-```
-
-**Windows (PowerShell):**
-
-```powershell
-python -m venv venv
-venv\Scripts\Activate.ps1
-```
-
-> Note: On Windows, if you get an execution policy error in PowerShell, run `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` first.
-
 ### Install dependencies
 
-With your virtual environment activated:
-
 ```bash
-pip install chromadb pymupdf anthropic python-dotenv
+pip install chromadb pymupdf anthropic
 ```
 
 ### Set your API key
 
-Create a `.env` file in the project directory:
-
 ```bash
-ANTHROPIC_API_KEY=your-key-here
+export ANTHROPIC_API_KEY="your-key-here"
 ```
 
-Get a key at <https://console.anthropic.com/settings/keys>
+Get a key at https://console.anthropic.com/settings/keys
 
 ## Usage
 
@@ -95,7 +58,6 @@ ChromaDB stores text as high-dimensional vectors (embeddings). When you ask a qu
 Claude (by Anthropic) is the LLM that reads the retrieved passages and generates answers. The app uses `claude-sonnet-4-20250514` for a good balance of speed and quality.
 
 The API is pay-per-use. Typical costs for this app:
-
 - ~$0.003 per question (input tokens for context)
 - ~$0.015 per answer (output tokens)
 

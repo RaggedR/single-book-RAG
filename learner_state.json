@@ -1,0 +1,19 @@
+{
+  "current_stage": 1,
+  "mastered_sounds": [],
+  "accuracy": {
+    "/m/": 0.4549999999999999,
+    "/n/": 0.35,
+    "/s/": 0.35
+  },
+  "attempts": {
+    "/m/": 2,
+    "/n/": 1,
+    "/s/": 1
+  },
+  "error_streaks": {},
+  "exercises_completed": 2,
+  "sessions": [],
+  "created_at": "2026-04-05T13:51:16",
+  "last_session": null
+}
